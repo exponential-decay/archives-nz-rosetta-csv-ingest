@@ -1,6 +1,8 @@
 {
     "title": "Rosetta CSV Validation Schema - Archives NZ",
     "description": "Draft schema for validating CSV files for ingest in Rosetta at Archives New Zealand.",
+	 "validator": "http://csvlint.io/",
+	 "standard" : "http://dataprotocols.org/json-table-schema/",
     "fields": [
         {
             "name": "Object Type",
@@ -21,7 +23,7 @@
         },
         {
             "name": "Title",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Title of the digital object being uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false
@@ -29,7 +31,7 @@
         },
         {
             "name": "Access",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Rosetta access restriction key.",
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
@@ -38,7 +40,7 @@
         },
         {
             "name": "Archway Identifier for publishing",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Record number in Archive New Zealand's catalogue.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -47,7 +49,7 @@
         },
         {
             "name": "Archway Identifier Type",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Type of identifier used in Archive New Zealand's catalogue.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -56,7 +58,7 @@
         },
         {
             "name": "Archway Identifier Value",
-            "description": "Identifier value. Identical to Archway Identifier for publishing",
+            "description": "Record number in Archive New Zealand's catalogue.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -65,7 +67,7 @@
         },
         {
             "name": "Series",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Series number identifier as denoted by Archive New Zealand's catalogue.",
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
@@ -74,7 +76,7 @@
         },
         {
             "name": "Agency",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Code for originating agency, e.g. Archives New Zealand: AEZB.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -83,7 +85,7 @@
         },
         {
             "name": "Entity Type",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Essence of the content found in the digital object.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -92,7 +94,7 @@
         },
         {
             "name": "Submission Reason",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Overarching reason for submission into Rosetta, e.g. Digital Transfer.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -101,7 +103,7 @@
         },
         {
             "name": "Revision Number",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Version of the file to be uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
@@ -110,7 +112,7 @@
         },
         {
             "name": "Usage Type",
-            "title": "A nicer human readable label or title for the field",
+            "description": "What we can do with file instance in Rosetta, e.g. VIEW.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -119,7 +121,7 @@
         },
         {
             "name": "Preservation Type",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Preservation purpose of file instance in Rosetta, e.g. Preservation Master.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -128,7 +130,7 @@
         },
         {
             "name": "File Location",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false
@@ -136,7 +138,7 @@
         },
         {
             "name": "File Name",
-            "title": "A nicer human readable label or title for the field",
+            "description": "File name, including extension, of file to be uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false
@@ -144,7 +146,7 @@
         },
         {
             "name": "File fixity type",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Checksum type to be used to validate integrity of file to be uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
@@ -153,7 +155,7 @@
         },
         {
             "name": "File fixity value",
-            "title": "A nicer human readable label or title for the field",
+            "description": "Hash generated for the file to be uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
