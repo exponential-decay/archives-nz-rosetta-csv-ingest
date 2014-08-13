@@ -42,7 +42,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^R\\d{8}$"
+                "pattern": "(^R\\d{8}$|^$)"
             }
         },
         {
@@ -51,7 +51,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^(ArchwayUniqueID)$"
+                "pattern": "(^(ArchwayUniqueID)$|^$)"
             }
         },
         {
@@ -60,7 +60,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^R\\d{8}$"
+                "pattern": "(^R\\d{8}$|^$)"
             }
         },
         {
@@ -69,7 +69,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
-                "pattern": "^\\d{5}$"
+                "pattern": "(^\\d{5}$|^$)"
             }
         },
         {
@@ -78,7 +78,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^[A-Z]{4}$"
+                "pattern": "(^[A-Z]{4}$|^$)"
             }
         },
         {
@@ -87,7 +87,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^(ANZ_NotDetermined)$"
+                "pattern": "(^(ANZ_NotDetermined)$|^$)"
             }
         },
         {
@@ -96,7 +96,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^(DigitalTransfer)$"
+                "pattern": "(^(DigitalTransfer)$|^$)"
             }
         },
         {
@@ -105,7 +105,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
-                "pattern": "^\\d{1,2}$"
+                "pattern": "(^\\d{1,2}$|^$)"
             }
         },
         {
@@ -114,7 +114,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^(VIEW)$"
+                "pattern": "(^(VIEW)$|^$)"
             }
         },
         {
@@ -123,7 +123,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^(PRESERVATION_MASTER)$"
+                "pattern": "(^(PRESERVATION_MASTER)$|^$)"
             }
         },
         {
@@ -148,7 +148,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "(MD5)"
+                "pattern": "((MD5)|^$)"
             }
         },
         {
@@ -157,7 +157,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false,
-                "pattern": "^([a-fA-F\\d]{32})$"
+                "pattern": "(^([a-fA-F\\d]{32})$|^$)"
             }
         }
     ]
