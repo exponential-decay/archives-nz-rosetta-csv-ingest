@@ -1,0 +1,172 @@
+{
+  # fields is an ordered list of field descriptors
+  # one for each field (column) in the table
+  "fields": [
+    # field-descriptor
+    {
+      "name": "Object Type",
+      "description": "The type of object we're describing in the row.",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			# constraints-descriptor
+			"required": true,
+			"pattern": "^(SIP|IE|REPRESENTATION|FILE)$"
+		}
+    },
+    {
+      "name": "SIP Title",
+      "description": "Title of the SIP to ingest.",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			# constraints-descriptor
+			"required": true
+			# TODO: character validation required? 
+		}
+    },
+    {
+      "name": "Title",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			# constraints-descriptor
+			"required": false
+			# Note: No pattern matching, as filename reqs are complicated
+		}
+    },
+    {
+      "name": "Access",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#int",
+		"constraints": {
+			"required": false,
+			"pattern": "^\d{7}$"
+		}
+    },
+    {
+      "name": "Archway Identifier for publishing",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^R\d{8}$"
+		}
+    },
+    {
+      "name": "Archway Identifier Type",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^(ArchwayUniqueID)$"
+		}
+    },
+    {
+      "name": "Archway Identifier Value",
+      "description": "Identifier value. Identical to Archway Identifier for publishing",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^R\d{8}$"
+		}
+    },
+    {
+      "name": "Series",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#int",
+		"constraints": {
+			"required": false,
+			"pattern": "^\d{5}$"	# TODO: full series requirements, e.g. more digits?
+		}
+    },
+    {
+      "name": "Agency",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^[A-Z]{4}$"	# TODO: Clarify 'Agency' variants
+		}
+    },
+    {
+      "name": "Entity Type",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^(ANZ_NotDetermined)$"
+		}
+    },
+    {
+      "name": "Submission Reason",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^(DigitalTransfer)$"
+		}
+    },
+    {
+      "name": "Revision Number",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#int",
+		"constraints": {
+			"required": false,
+			"pattern": "^\d{1,2}$" # Note: one to two digit no.
+		}
+    },
+    {
+      "name": "Usage Type",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^(VIEW)$"	# TODO: Expand usage types
+		}
+    },
+    {
+      "name": "Preservation Type",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^(PRESERVATION_MASTER)$"	# TODO: Expand preservation types
+		}
+    },
+    {
+      "name": "File Location",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false
+			# TODO: validation pattern? # Note: Difficult to validate
+		}
+    },
+    {
+      "name": "File Name",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false
+			# TODO: validation pattern? # Note: Difficult to validate
+		}
+    },
+    {
+      "name": "File fixity type",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "(MD5)"	#TODO: Expand fixity types available
+		}
+    },
+    {
+      "name": "File fixity value",
+      "title": "A nicer human readable label or title for the field",
+		"type": "http://www.w3.org/2001/XMLSchema#string",
+		"constraints": {
+			"required": false,
+			"pattern": "^([a-fA-F\d]{32})$"
+		}
+    }
+  ]
+}
