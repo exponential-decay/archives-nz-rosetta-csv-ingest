@@ -16,7 +16,7 @@
             "description": "Title of the SIP to ingest.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
-                "required": true
+                "required": false
             }
         },
         {
