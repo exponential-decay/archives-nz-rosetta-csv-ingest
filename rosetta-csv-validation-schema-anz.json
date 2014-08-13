@@ -33,7 +33,7 @@
             "type": "http://www.w3.org/2001/XMLSchema#int",
             "constraints": {
                 "required": false,
-                "pattern": "^\\d{7}$"
+                "pattern": "(^\\d{7}$|^$)"
             }
         },
         {
