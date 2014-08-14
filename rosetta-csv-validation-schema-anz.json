@@ -6,14 +6,14 @@
   "standard" : "http://dataprotocols.org/json-table-schema/",
   "licenses" : [
     {
-      "id" : "n/a",
-      "url" : "n/a"
+      "id" : "Unlicensed",
+      "url" : "http://example.com"
     }
   ],
   "publishers" : [
     {
-      "name" : "The Open Data Institute",
-      "web" : "http://www.theodi.org"
+      "name" : "Archives New Zealamd",
+      "web" : "http://archives.govt.nz/"
     }
   ],
   "maintainers" : [
