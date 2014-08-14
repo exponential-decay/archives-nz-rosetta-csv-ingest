@@ -2,8 +2,6 @@
   "datapackage_version": "1.0-beta.7",
   "name" : "Rosetta CSV Validation Schema - Archives NZ",
   "description" : "Draft schema for validating CSV files for ingest in Rosetta at Archives New Zealand.",
-  "validator": "http://csvlint.io/",
-  "standard" : "http://dataprotocols.org/json-table-schema/",
   "licenses" : [
     {
       "id" : "Unlicensed",
