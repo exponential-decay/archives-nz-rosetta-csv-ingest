@@ -4,15 +4,8 @@
 	 "validator": "http://csvlint.io/",
 	 "standard" : "http://dataprotocols.org/json-table-schema/",
 	 
-	 "dialect": {
-	    "csvddfVersion": 1.0,
-	    "delimiter": ",",
-	    "doubleQuote": true,
-	    "lineTerminator": "\r\n",
-	    "quoteChar": "\"",
-	    "skipInitialSpace": true,
-	    "header": true
-	},
+
+    "header": true
 
     "fields": [
         {
