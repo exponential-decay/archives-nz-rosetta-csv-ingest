@@ -1,13 +1,39 @@
 {
-    "title": "Rosetta CSV Validation Schema - Archives NZ",
-    "description": "Draft schema for validating CSV files for ingest in Rosetta at Archives New Zealand.",
-	 "validator": "http://csvlint.io/",
-	 "standard" : "http://dataprotocols.org/json-table-schema/",
-	 
-
-    "header": true
-
-    "fields": [
+  "datapackage_version": "1.0-beta.7",
+  "name" : "Rosetta CSV Validation Schema - Archives NZ",
+  "description" : "Draft schema for validating CSV files for ingest in Rosetta at Archives New Zealand.",
+  "validator": "http://csvlint.io/",
+  "standard" : "http://dataprotocols.org/json-table-schema/",
+  "licenses" : [
+    {
+      "id" : "n/a",
+      "url" : "n/a"
+    }
+  ],
+  "publishers" : [
+    {
+      "name" : "The Open Data Institute",
+      "web" : "http://www.theodi.org"
+    }
+  ],
+  "maintainers" : [
+    {
+      "name" : "Ross Spencer",
+      "email" : "ross.spencer@dia.govt.nz"
+    }
+  ],
+  "resources" : [
+    {
+      "dialect" : {
+        "delimiter" : ",",
+        "doublequote" : false,
+        "lineterminator" : "\r\n",
+        "quotechar" : "\"",
+        "skipinitialspace" : false,
+		  "header": true
+      },
+      "schema" : {
+        "fields": [
         {
             "name": "Object Type",
             "description": "The type of object we're describing in the row.",
@@ -167,4 +193,7 @@
             }
         }
     ]
+      }
+    }
+  ]
 }
