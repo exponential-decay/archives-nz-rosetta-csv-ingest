@@ -120,7 +120,7 @@ class JSONTableSchema(object):
       csv_header = ''
       for name in self.field_names:
          csv_header = csv_header + '"' + str(name) + '",'
-      return csv_header[:-1] + "\r\n"
+      return csv_header[:-1]
 
    def check_type(self, field_type, field_name):
   
