@@ -24,13 +24,16 @@ class ImportSheetGenerator:
       self.importschema = importschema
 
    def retrieve_year_from_modified_date(self, MODIFIED_DATE):
+      year = ""
+      if MODIFIED_DATE != '':
+         inputdateformat = '%Y-%m-%dT%H:%M:%S'
+         year = datetime.strptime(MODIFIED_DATE, inputdateformat).year
+      else:
+         sys.stderr.write("Date field used to extrave 'year' is blank.")
+      return year
 
-      inputdateformat = '%Y-%m-%dT%H:%M:%S'
-      moddate = datetime.strptime(MODIFIED_DATE, inputdateformat)
-      return moddate.year
-
-   def add_csv_field(self, value):
-      return '"' + value + '"'
+   def add_csv_value(self, value):
+      return '"' + str(value) + '"'
 
    def maptoimportschema(self):
       
@@ -45,13 +48,10 @@ class ImportSheetGenerator:
 
          importcsv = importschemaheader + "\n"
 
-         
-
          for filerow in self.droidlist:
             
-            #print filerow
-            #yearopen = self.retrieve_year_from_modified_date(filerow['LAST_MODIFIED'])
-            #yearclosed = yearopen
+            # Extract year from file modified date for open and closed year
+            yearopenclosed = self.retrieve_year_from_modified_date(filerow['LAST_MODIFIED'])
          
             for column in importschemadict['fields']:
                if self.config.has_option('droid mapping', column['name']):
@@ -74,14 +74,14 @@ class ImportSheetGenerator:
                   #print self.config.get('droid mapping', column['name'])
                   
                if self.config.has_option('static values', column['name']):
-                  importcsv = importcsv + self.add_csv_field(self.config.get('static values', column['name']))
+                  importcsv = importcsv + self.add_csv_value(self.config.get('static values', column['name']))
                
                if column['name'] == 'Open Year' or column['name'] == 'Close Year':
-                  print 'years'
+                  importcsv = importcsv + self.add_csv_value(yearopenclosed)
                
                
                else:
-                  importcsv = importcsv + self.add_csv_field("")
+                  importcsv = importcsv + self.add_csv_value("")
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
@@ -151,7 +151,7 @@ class ImportSheetGenerator:
          droidlist = self.readDROIDCSV()
          droidlist = self.removefolders(droidlist)
          self.droidlist = self.removecontainercontents(droidlist)
-         #self.maptoimportschema()
+         self.maptoimportschema()
 
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
