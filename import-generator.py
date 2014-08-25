@@ -4,6 +4,7 @@ sys.path.append(r'JsonTableSchema/')
 import JsonTableSchema
 import ConfigParser
 import argparse
+from urlparse import urlparse
 import csv
 
 class ImportSheetGenerator:
@@ -44,16 +45,14 @@ class ImportSheetGenerator:
 
          importcsv = importschemaheader + "\r\n"
 
-         print self.config
 
-         #if self.config.has_option('droid mapping', column['name']):
-         #   print "yo"
-
-         #for filerow in self.droidlist:
-          #  for column in importschemadict['fields']:
-           #    if self.config.has_option('droid mapping', column['name']):
-            #      importcsv = importcsv + self.add_csv_value(self.config.get('droid mapping', column['name']))
-             #     print self.config.get('droid mapping', column['name'])
+         for filerow in self.droidlist:
+            for column in importschemadict['fields']:
+               if self.config.has_option('droid mapping', column['name']):
+                  #print filerow[self.config.get('droid mapping', column['name'])]
+                  x = 1
+                  #importcsv = importcsv + self.add_csv_field(self.config.get('droid mapping', column['name']))
+                  #print self.config.get('droid mapping', column['name'])
                   
             #   if config.has_option('static values', column['name']):
             #      print "yyy: " + config.get('static values', column['name'])
@@ -76,12 +75,21 @@ class ImportSheetGenerator:
          header_list.append(header)
       return header_list
 
-   def removefolders(self, droid_list):
+   def getURIScheme(self, url):
+      return urlparse(url).scheme
+
+   def removecontainercontents(self, droidlist):
+      for row in droidlist:
+         if self.getURIScheme(row['URI']) != 'file':
+            droidlist.remove(row)
+      return droidlist
+   
+   def removefolders(self, droidlist):
       #TODO: We can generate counts here and store in member vars
-      for row in droid_list:
+      for row in droidlist:
          if row['TYPE'] == 'Folder':
-            droid_list.remove(row)
-      return droid_list
+            droidlist.remove(row)
+      return droidlist
 
    def readDROIDCSV(self):
       if self.droidcsv != False:
@@ -106,7 +114,8 @@ class ImportSheetGenerator:
    def droid2archwayimport(self):
       if self.droidcsv != False and self.importschema != False:
          droidlist = self.readDROIDCSV()
-         self.droidlist = self.removefolders(droidlist)
+         droidlist = self.removefolders(droidlist)
+         self.droidlist = self.removecontainercontents(droidlist)
          self.maptoimportschema()
 
 def importsheetDROIDmapping(droidcsv, importschema):
