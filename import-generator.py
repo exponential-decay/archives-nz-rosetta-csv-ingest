@@ -87,21 +87,7 @@ class ImportSheetGenerator:
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
-               
-         print importcsv
-         
-         
-            #   if column['name'] == 'Description':       #TODO: More dynamic in config file?
-            #      if config.has_option('additional values', 'descriptiontext'):
-            #         print config.get('additional values', 'descriptiontext')
-
-               # TODO: search DROID CSV string for MODIFIED_DATE strip all but year
-               # input here...
-            #   if column['name'] == 'Open Year':  
-            #      temp1 = str(retrieve_year_from_modified_date('2006-03-10T14:31:49'))
-
-            #   if column['name'] == 'Close Year':  
-            #      temp2 = str(retrieve_year_from_modified_date('2007-03-10T14:31:49'))
+         sys.stdout.write(importcsv)
 
    def getDROIDHeaders(self, csvcolumnheaders):
       header_list = []
@@ -162,7 +148,6 @@ def importsheetDROIDmapping(droidcsv, importschema):
 def main():
 
    #	Usage: 	--csv [droid report]
-
    #	Handle command line arguments for the script
    parser = argparse.ArgumentParser(description='Generate Archway Import Sheet and Rosetta Ingest CSV from DROID CSV Reports.')
 
@@ -188,26 +173,3 @@ def main():
 
 if __name__ == "__main__":
    main()
-
-
-
-
-'''
-f = open('import-csv-schema.json', 'rb')
-test = f.read()
-
-ross = JsonTableSchema.JSONTableSchema(test)
-
-rs = ross.as_dict()
-
-for x in rs['fields']:
-   print x['name']'''
-   
-   # TODO: Read mapping Config file... 
-   # TODO: Read values config file...
-   # TODO: For each matching field, import data, else, blank cell
-
-   # get URI Scheme: urlparse(url).scheme
-   # get DIRNAME os.path.dirname(item)
-
-#sys.stdout.write(ross.as_csv_header())
