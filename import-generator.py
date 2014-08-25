@@ -57,23 +57,36 @@ def getDROIDHeaders(csvcolumnheaders):
       header_list.append(header)
    return header_list
 
-def handleDROIDCSV(droidcsv):
+def removefolders(droid_list):
+   print len(droid_list)
+   for row in droid_list:
+      if row['TYPE'] == 'Folder':
+         droid_list.remove(row)
+   print len(droid_list)
 
-      with open(droidcsv, 'rb') as csvfile:
-         droidreader = csv.reader(csvfile)
-         for row in droidreader:
-            if droidreader.line_num == 1:		# not zero-based index
-               header_list = getDROIDHeaders(row)
-            else:
-               row_dict = {}
-               for i,item in enumerate(row):
-                  
-                  row_dict[header_list[i]] = item
-                                    
-                  # get URI Scheme: urlparse(url).scheme
-                  # get DIRNAME os.path.dirname(item)
-                  
-               print row_dict
+def readDROIDCSV(droidcsv):
+   
+   droid_list = []
+
+   with open(droidcsv, 'rb') as csvfile:
+      droidreader = csv.reader(csvfile)
+      for row in droidreader:      
+         if droidreader.line_num == 1:		# not zero-based index
+            header_list = getDROIDHeaders(row)
+         else:
+            droid_dict = {}
+            for i,item in enumerate(row):
+               droid_dict[header_list[i]] = item
+               # get URI Scheme: urlparse(url).scheme
+               # get DIRNAME os.path.dirname(item)
+               
+            droid_list.append(droid_dict)
+   
+   return droid_list
+
+def importsheetDROIDmapping(droidcsv):
+   droid_list = readDROIDCSV(droidcsv)
+   droid_list = removefolders(droid_list)
 
 def main():
 
@@ -81,7 +94,7 @@ def main():
 
    #	Handle command line arguments for the script
    parser = argparse.ArgumentParser(description='Analyse DROID results stored in a SQLite DB')
-   parser.add_argument('--csv', help='Optional: Single DROID CSV to read.', default=False)
+   parser.add_argument('--csv', help='Single DROID CSV to read.', default=False)
    #parser.add_argument('--csva', help='Optional: DROID CSV to read, and then analyse.', default=False)
    #parser.add_argument('--db', help='Optional: Single DROID sqlite db to read.', default=False)
 
@@ -94,7 +107,7 @@ def main():
    args = parser.parse_args()
    
    if args.csv:
-      handleDROIDCSV(args.csv)
+      importsheetDROIDmapping(args.csv)
    #if args.csva:
    #	handleDROIDCSV(args.csva, True)
    #if args.db:
@@ -124,5 +137,7 @@ for x in rs['fields']:
    # TODO: Read values config file...
    # TODO: For each matching field, import data, else, blank cell
 
+   # get URI Scheme: urlparse(url).scheme
+   # get DIRNAME os.path.dirname(item)
 
 #sys.stdout.write(ross.as_csv_header())
