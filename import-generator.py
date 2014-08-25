@@ -9,14 +9,16 @@ import csv
 class ImportSheetGenerator:
 
    def __init__(self):
-      config = ConfigParser.RawConfigParser()
-      self.config = config.read('import-value-mapping.cfg')   
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('import-value-mapping.cfg')   
 
       self.droidcsv = False
       self.importschema = False
 
    def __init__(self, droidcsv=False, importschema=False):
-      self.configfilename = 'import-value-mapping.cfg'
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('import-value-mapping.cfg')   
+      
       self.droidcsv = droidcsv
       self.importschema = importschema
 
@@ -25,6 +27,9 @@ class ImportSheetGenerator:
       inputdateformat = '%Y-%m-%dT%H:%M:%S'
       moddate = datetime.strptime(MODIFIED_DATE, inputdateformat)
       return moddate.year
+
+   def add_csv_field(self, value):
+      return '"' + value + '"'
 
    def maptoimportschema(self):
       
@@ -37,15 +42,18 @@ class ImportSheetGenerator:
          importschemadict = importschema.as_dict()
          importschemaheader = importschema.as_csv_header()
 
-         #for column in importschemadict['fields']:
-         #   print column
+         importcsv = importschemaheader + "\r\n"
 
-         #for row in DROID CSV...
-            #for column in schema...
+         print self.config
 
-            #for column in importschemadict['fields']:
-            #   if config.has_option('droid mapping', column['name']):
-            #      print "xxx: " + config.get('droid mapping', column['name'])
+         #if self.config.has_option('droid mapping', column['name']):
+         #   print "yo"
+
+         #for filerow in self.droidlist:
+          #  for column in importschemadict['fields']:
+           #    if self.config.has_option('droid mapping', column['name']):
+            #      importcsv = importcsv + self.add_csv_value(self.config.get('droid mapping', column['name']))
+             #     print self.config.get('droid mapping', column['name'])
                   
             #   if config.has_option('static values', column['name']):
             #      print "yyy: " + config.get('static values', column['name'])
@@ -98,7 +106,7 @@ class ImportSheetGenerator:
    def droid2archwayimport(self):
       if self.droidcsv != False and self.importschema != False:
          droidlist = self.readDROIDCSV()
-         droidlist = self.removefolders(droidlist)
+         self.droidlist = self.removefolders(droidlist)
          self.maptoimportschema()
 
 def importsheetDROIDmapping(droidcsv, importschema):
