@@ -59,8 +59,8 @@ class ImportSheetGenerator:
                   fieldtext = ""
                   
                   if droidfield == 'FILE_PATH':
-                     #strip filename and filepathmask
-                     print "t"
+                     dir = filerow['FILE_PATH']
+                     print dir
                   if droidfield == 'NAME':
                      fieldtext = filerow['NAME'].split('.', 2)[0]  #split once at full-stop (assumptuon 'ext' follows)
                   if droidfield == 'MD5_HASH':
@@ -115,7 +115,7 @@ class ImportSheetGenerator:
          uris = self.getURIScheme(row['URI'])
          if self.getURIScheme(row['URI']) == 'file':
             newlist.append(row)
-      return droidlist
+      return newlist
    
    def removefolders(self, droidlist):
       #TODO: We can generate counts here and store in member vars
