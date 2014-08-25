@@ -58,11 +58,11 @@ def getDROIDHeaders(csvcolumnheaders):
    return header_list
 
 def removefolders(droid_list):
-   print len(droid_list)
+   #TODO: We can generate counts here and store in member vars
    for row in droid_list:
       if row['TYPE'] == 'Folder':
          droid_list.remove(row)
-   print len(droid_list)
+   return droid_list
 
 def readDROIDCSV(droidcsv):
    
@@ -87,6 +87,8 @@ def readDROIDCSV(droidcsv):
 def importsheetDROIDmapping(droidcsv):
    droid_list = readDROIDCSV(droidcsv)
    droid_list = removefolders(droid_list)
+   
+   
 
 def main():
 
