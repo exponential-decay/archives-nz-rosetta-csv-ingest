@@ -43,20 +43,27 @@ class ImportSheetGenerator:
          importschemadict = importschema.as_dict()
          importschemaheader = importschema.as_csv_header()
 
-         importcsv = importschemaheader + "\r\n"
+         importcsv = importschemaheader + "\n"
 
 
          for filerow in self.droidlist:
             for column in importschemadict['fields']:
-               if self.config.has_option('droid mapping', column['name']):
-                  #print filerow[self.config.get('droid mapping', column['name'])]
-                  x = 1
+               #if self.config.has_option('droid mapping', column['name']):
+               #   print filerow[self.config.get('droid mapping', column['name'])]
+
                   #importcsv = importcsv + self.add_csv_field(self.config.get('droid mapping', column['name']))
                   #print self.config.get('droid mapping', column['name'])
                   
-            #   if config.has_option('static values', column['name']):
-            #      print "yyy: " + config.get('static values', column['name'])
+               if self.config.has_option('static values', column['name']):
+                  importcsv = importcsv + self.add_csv_field(self.config.get('static values', column['name']))
                   
+               else:
+                  importcsv = importcsv + self.add_csv_field("")
+               importcsv = importcsv + ","
+            importcsv = importcsv + "\n"
+               
+               
+         print importcsv
             #   if column['name'] == 'Description':       #TODO: More dynamic in config file?
             #      if config.has_option('additional values', 'descriptiontext'):
             #         print config.get('additional values', 'descriptiontext')
