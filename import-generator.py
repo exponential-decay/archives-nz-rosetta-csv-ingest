@@ -1,3 +1,4 @@
+import os
 import sys
 from datetime import datetime
 sys.path.append(r'JsonTableSchema/')
@@ -54,13 +55,13 @@ class ImportSheetGenerator:
             yearopenclosed = self.retrieve_year_from_modified_date(filerow['LAST_MODIFIED'])
          
             for column in importschemadict['fields']:
+               entry = False
                if self.config.has_option('droid mapping', column['name']):
                   droidfield = self.config.get('droid mapping', column['name'])
                   fieldtext = ""
-                  
                   if droidfield == 'FILE_PATH':
-                     dir = filerow['FILE_PATH']
-                     print dir
+                     dir = os.path.dirname(filerow['FILE_PATH'])
+                     fieldtext = dir.replace(self.config.get('additional values', 'pathmask'), "")
                   if droidfield == 'NAME':
                      fieldtext = filerow['NAME'].split('.', 2)[0]  #split once at full-stop (assumptuon 'ext' follows)
                   if droidfield == 'MD5_HASH':
@@ -70,22 +71,24 @@ class ImportSheetGenerator:
                         fieldtext = self.config.get('additional values', 'descriptiontext') + " " + str(filerow[droidfield])
                   
                   importcsv = importcsv + self.add_csv_value(fieldtext)
-                  #print self.config.get('droid mapping', column['name'])
+                  entry = True
                   
                if self.config.has_option('static values', column['name']):
                   importcsv = importcsv + self.add_csv_value(self.config.get('static values', column['name']))
+                  entry = True
                
                if column['name'] == 'Open Year' or column['name'] == 'Close Year':
                   importcsv = importcsv + self.add_csv_value(yearopenclosed)
+                  entry = True
                
-               
-               else:
+               if entry == False:
                   importcsv = importcsv + self.add_csv_value("")
+                  
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
                
-         #print importcsv
+         print importcsv
          
          
             #   if column['name'] == 'Description':       #TODO: More dynamic in config file?
