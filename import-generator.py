@@ -65,12 +65,12 @@ class ImportSheetGenerator:
                      #strip extension
                      print "y"
                   if droidfield == 'MD5_HASH':
-                     print "h"
+                     fieldtext = filerow['MD5_HASH']
                   if droidfield == 'LAST_MODIFIED':
                      if self.config.has_option('additional values', 'descriptiontext'):
                         fieldtext = self.config.get('additional values', 'descriptiontext') + " " + str(filerow[droidfield])
                   
-                  #importcsv = importcsv + self.add_csv_field(self.config.get('droid mapping', column['name']))
+                  importcsv = importcsv + self.add_csv_value(fieldtext)
                   #print self.config.get('droid mapping', column['name'])
                   
                if self.config.has_option('static values', column['name']):
