@@ -62,8 +62,7 @@ class ImportSheetGenerator:
                      #strip filename and filepathmask
                      print "t"
                   if droidfield == 'NAME':
-                     #strip extension
-                     print "y"
+                     fieldtext = filerow['NAME'].split('.', 2)[0]  #split once at full-stop (assumptuon 'ext' follows)
                   if droidfield == 'MD5_HASH':
                      fieldtext = filerow['MD5_HASH']
                   if droidfield == 'LAST_MODIFIED':
