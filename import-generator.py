@@ -45,25 +45,50 @@ class ImportSheetGenerator:
 
          importcsv = importschemaheader + "\n"
 
+         
 
          for filerow in self.droidlist:
+            
+            #print filerow
+            #yearopen = self.retrieve_year_from_modified_date(filerow['LAST_MODIFIED'])
+            #yearclosed = yearopen
+         
             for column in importschemadict['fields']:
-               #if self.config.has_option('droid mapping', column['name']):
-               #   print filerow[self.config.get('droid mapping', column['name'])]
-
+               if self.config.has_option('droid mapping', column['name']):
+                  droidfield = self.config.get('droid mapping', column['name'])
+                  fieldtext = ""
+                  
+                  if droidfield == 'FILE_PATH':
+                     #strip filename and filepathmask
+                     print "t"
+                  if droidfield == 'NAME':
+                     #strip extension
+                     print "y"
+                  if droidfield == 'MD5_HASH':
+                     print "h"
+                  if droidfield == 'LAST_MODIFIED':
+                     if self.config.has_option('additional values', 'descriptiontext'):
+                        fieldtext = self.config.get('additional values', 'descriptiontext') + " " + str(filerow[droidfield])
+                  
                   #importcsv = importcsv + self.add_csv_field(self.config.get('droid mapping', column['name']))
                   #print self.config.get('droid mapping', column['name'])
                   
                if self.config.has_option('static values', column['name']):
                   importcsv = importcsv + self.add_csv_field(self.config.get('static values', column['name']))
-                  
+               
+               if column['name'] == 'Open Year' or column['name'] == 'Close Year':
+                  print 'years'
+               
+               
                else:
                   importcsv = importcsv + self.add_csv_field("")
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
                
-         print importcsv
+         #print importcsv
+         
+         
             #   if column['name'] == 'Description':       #TODO: More dynamic in config file?
             #      if config.has_option('additional values', 'descriptiontext'):
             #         print config.get('additional values', 'descriptiontext')
@@ -86,17 +111,20 @@ class ImportSheetGenerator:
       return urlparse(url).scheme
 
    def removecontainercontents(self, droidlist):
+      newlist = []   # naive remove causes loop to skip items
       for row in droidlist:
-         if self.getURIScheme(row['URI']) != 'file':
-            droidlist.remove(row)
+         uris = self.getURIScheme(row['URI'])
+         if self.getURIScheme(row['URI']) == 'file':
+            newlist.append(row)
       return droidlist
    
    def removefolders(self, droidlist):
       #TODO: We can generate counts here and store in member vars
-      for row in droidlist:
-         if row['TYPE'] == 'Folder':
-            droidlist.remove(row)
-      return droidlist
+      newlist = []   # naive remove causes loop to skip items
+      for i,row in enumerate(droidlist):
+         if row['TYPE'] != 'Folder':
+            newlist.append(row)      
+      return newlist
 
    def readDROIDCSV(self):
       if self.droidcsv != False:
@@ -123,7 +151,7 @@ class ImportSheetGenerator:
          droidlist = self.readDROIDCSV()
          droidlist = self.removefolders(droidlist)
          self.droidlist = self.removecontainercontents(droidlist)
-         self.maptoimportschema()
+         #self.maptoimportschema()
 
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
