@@ -71,7 +71,7 @@ class ImportSheetGenerator:
                      dir = os.path.dirname(filerow['FILE_PATH'])
                      fieldtext = dir.replace(self.config.get('additional values', 'pathmask'), "")
                   if droidfield == 'NAME':
-                     fieldtext = filerow['NAME'].split('.', 2)[0]  #split once at full-stop (assumptuon 'ext' follows)
+                     fieldtext = filerow['NAME'].rsplit('.', 1)[0]  #split once at full-stop (assumptuon 'ext' follows)
                   if droidfield == 'MD5_HASH':
                      fieldtext = filerow['MD5_HASH']
                   if droidfield == 'LAST_MODIFIED':
