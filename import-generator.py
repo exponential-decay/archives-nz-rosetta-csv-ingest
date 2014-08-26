@@ -9,7 +9,8 @@ import JsonTableSchema
 import ConfigParser
 import argparse
 from urlparse import urlparse
-import csv
+import unicodecsv
+
 
 class ImportSheetGenerator:
 
@@ -37,7 +38,12 @@ class ImportSheetGenerator:
       return year
 
    def add_csv_value(self, value):
-      return '"' + str(value) + '"'
+      field = ''
+      if type(value) is int:              #TODO: probably a better way to do this (type-agnostic)
+         field = '"' + str(value) + '"'
+      else:
+         field = '"' + value.encode('utf-8') + '"'
+      return field
 
    def maptoimportschema(self):
       
@@ -122,8 +128,8 @@ class ImportSheetGenerator:
          droid_list = []
 
          with open(self.droidcsv, 'rb') as csvfile:
-            droidreader = csv.reader(csvfile)
-            for row in droidreader:      
+            droidreader = unicodecsv.reader(csvfile)
+            for row in droidreader:
                if droidreader.line_num == 1:		# not zero-based index
                   header_list = self.getDROIDHeaders(row)
                else:
