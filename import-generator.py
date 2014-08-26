@@ -11,7 +11,6 @@ import argparse
 from urlparse import urlparse
 import unicodecsv
 
-
 class ImportSheetGenerator:
 
    def __init__(self):
@@ -154,6 +153,9 @@ def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
    importgenerator.droid2archwayimport()
 
+def exportsheetRosettamapping(droidcsv, exportsheet):
+   print 'rosetta ingest csv mapping.'
+
 def main():
 
    #	Usage: 	--csv [droid report]
@@ -165,6 +167,7 @@ def main():
    #NOTE: class on its own might be used to create a blank import csv with just static options
    parser.add_argument('--csv', help='Single DROID CSV to read.', default=False, required=False)
    parser.add_argument('--imp', help='Archway import schema to use.', default=False, required=False)
+   parser.add_argument('--exp', help='Archway export sheet to map to Rosetta ingest CSV', default=False, required=False)
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -176,7 +179,8 @@ def main():
    
    if args.csv and args.imp:
       importsheetDROIDmapping(args.csv, args.imp)
-   
+   if args.csv and args.exp:
+      exportsheetRosettamapping(args.csv, args.exp)
    else:
       sys.exit(1)
 
