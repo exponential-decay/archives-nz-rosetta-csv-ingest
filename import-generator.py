@@ -95,7 +95,7 @@ class ImportSheetGenerator:
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
-         sys.stdout.write(importcsv)
+         #sys.stdout.write(importcsv)
 
    def getDROIDHeaders(self, csvcolumnheaders):
       header_list = []
@@ -149,12 +149,23 @@ class ImportSheetGenerator:
          self.droidlist = self.removecontainercontents(droidlist)
          self.maptoimportschema()
 
+class RosettaCSVGenerator:
+
+   def __init__(self):
+      print "Rosetta CSV Generator"
+
+  #Combine DROID cells and Export cells here... 
+  #File Original Path: E1/Speeches/DSCN1872.JPG	 
+  #File Name: DSCN1872.JPG
+
+
+
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
    importgenerator.droid2archwayimport()
 
 def exportsheetRosettamapping(droidcsv, exportsheet):
-   print 'rosetta ingest csv mapping.'
+   csvgen = RosettaCSVGenerator()
 
 def main():
 
