@@ -152,7 +152,26 @@ class ImportSheetGenerator:
 class RosettaCSVGenerator:
 
    def __init__(self):
-      print "Rosetta CSV Generator"
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('rosetta-csv-mapping.cfg')   
+
+      self.droidcsv = False
+      self.exportcsv = False
+
+   def __init__(self, droidcsv=False, exportcsv=False):
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('import-value-mapping.cfg')   
+      
+      self.droidcsv = droidcsv
+      self.exportcsv = importschema
+
+   def readExportCSV(self):
+      if self.exportcsv != False:
+         print "exportcsv"
+
+   def readDROIDCSV(self):
+      if self.droidcsv != False:
+         print "droidcsv"
 
   #Combine DROID cells and Export cells here... 
   #File Original Path: E1/Speeches/DSCN1872.JPG	 
