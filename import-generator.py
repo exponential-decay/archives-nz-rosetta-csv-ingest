@@ -165,33 +165,41 @@ class RosettaCSVGenerator:
    
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
+      rowlen = len(self.rosettacsvdict)
       
       rosettacsv = self.rosettacsvheader
       
       
       for item in self.exportlist:
          for sections in self.rosettasections:
+         
+            rosettacsv = rosettacsv + self.add_csv_value(sections.keys()[0]) + ','
+            rosettacsv = rosettacsv + self.add_csv_value('') + ','
+            
             for field in sections[sections.keys()[0]]:
+               
+            
                if field == self.rosettacsvdict[csvindex]['name']:
                   #if self.config.has_option('rosetta mapping', field):
                   #   print field
                   if self.config.has_option('static values', field):
-                     #print field
-                     rosettacsv = rosettacsv + self.add_csv_value(field)
-                     #rosettafield = self.config.get('static values', field)
-                     #rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
+                     rosettafield = self.config.get('static values', field)
+                     rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
                   else:
-                     rosettacsv = rosettacsv + '""'
+                     rosettacsv = rosettacsv + self.add_csv_value(field)
                   rosettacsv = rosettacsv + ','
                else:
                   sys.exit(0)
                csvindex+=1
+            if csvindex < rowlen:
+               print "column print: " + str(rowlen-csvindex)
+               rosettacsv=rosettacsv+self.createcolumns(rowlen-csvindex)
             rosettacsv = rosettacsv + '\n'
          rosettacsv = rosettacsv + '\n'
          csvindex=CSVINDEXSTARTPOS
          
       
-      print rosettacsv
+      #print rosettacsv
       
       #for item in self.exportlist:
       #   for column in self.rosettacsvdict:
