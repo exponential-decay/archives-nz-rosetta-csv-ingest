@@ -99,15 +99,13 @@ class ImportSheetGenerator:
    def readDROIDCSV(self):
       if self.droidcsv != False:
          droidcsvhandler = droidCSVHandler()
-         return droidcsvhandler.readDROIDCSV(self.droidcsv)        
+         droidlist = droidcsvhandler.readDROIDCSV(self.droidcsv)     
+         droidlist = droidcsvhandler.removefolders(droidlist)
+         return droidcsvhandler.removecontainercontents(droidlist)   
 
    def droid2archwayimport(self):
       if self.droidcsv != False and self.importschema != False:
-         droidlist = self.readDROIDCSV()
-         if droidlist:
-            droidcsvhandler = droidCSVHandler()
-            droidlist = droidcsvhandler.removefolders(droidlist)
-            self.droidlist = droidcsvhandler.removecontainercontents(droidlist)
+         self.droidlist = self.readDROIDCSV()
          self.maptoimportschema()
 
 class RosettaCSVGenerator:
@@ -129,19 +127,17 @@ class RosettaCSVGenerator:
    def readExportCSV(self):
       if self.exportsheet != False:
          print "exportcsv"
-
+   
    def readDROIDCSV(self):
       if self.droidcsv != False:
-         csvhandler = genericCSVHandler()
-         return csvhandler.csvaslist(self.droidcsv)     
+         droidcsvhandler = droidCSVHandler()
+         droidlist = droidcsvhandler.readDROIDCSV(self.droidcsv)
+         droidlist = droidcsvhandler.removefolders(droidlist)
+         return droidcsvhandler.removecontainercontents(droidlist)        
 
    def export2rosettacsv(self):
-      print "ok"
       if self.droidcsv != False and self.exportsheet != False:
-         droidlist = self.readDROIDCSV()
-         print droidlist
-         #droidlist = self.removefolders(droidlist)
-         #self.droidlist = self.removecontainercontents(droidlist)
+         self.droidlist = self.readDROIDCSV()
          #self.maptoimportschema()
 
   #Combine DROID cells and Export cells here... 
