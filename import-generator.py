@@ -35,6 +35,32 @@ class genericCSVHandler():
                csvlist.append(csv_dict)
       return csvlist
 
+class droidCSVHandler():
+
+   #returns droidlist type
+   def readDROIDCSV(self, droidcsvfname):
+      csvhandler = genericCSVHandler()
+      self.csv = csvhandler.csvaslist(droidcsvfname)
+      return self.csv
+
+   def removecontainercontents(self, droidlist):
+      newlist = []   # naive remove causes loop to skip items
+      for row in droidlist:
+         uris = self.getURIScheme(row['URI'])
+         if self.getURIScheme(row['URI']) == 'file':
+            newlist.append(row)
+      return newlist
+   
+   def removefolders(self, droidlist):
+      #TODO: We can generate counts here and store in member vars
+      newlist = []   # naive remove causes loop to skip items
+      for i,row in enumerate(droidlist):
+         if row['TYPE'] != 'Folder':
+            newlist.append(row)      
+      return newlist
+ 
+   def getURIScheme(self, url):
+      return urlparse(url).scheme
 
 class ImportSheetGenerator:
 
@@ -122,35 +148,18 @@ class ImportSheetGenerator:
                
          sys.stdout.write(importcsv)
 
-   def getURIScheme(self, url):
-      return urlparse(url).scheme
-
-   def removecontainercontents(self, droidlist):
-      newlist = []   # naive remove causes loop to skip items
-      for row in droidlist:
-         uris = self.getURIScheme(row['URI'])
-         if self.getURIScheme(row['URI']) == 'file':
-            newlist.append(row)
-      return newlist
-   
-   def removefolders(self, droidlist):
-      #TODO: We can generate counts here and store in member vars
-      newlist = []   # naive remove causes loop to skip items
-      for i,row in enumerate(droidlist):
-         if row['TYPE'] != 'Folder':
-            newlist.append(row)      
-      return newlist
-
    def readDROIDCSV(self):
       if self.droidcsv != False:
-         csvhandler = genericCSVHandler()
-         return csvhandler.csvaslist(self.droidcsv)        
+         droidcsvhandler = droidCSVHandler()
+         return droidcsvhandler.readDROIDCSV(self.droidcsv)        
 
    def droid2archwayimport(self):
       if self.droidcsv != False and self.importschema != False:
          droidlist = self.readDROIDCSV()
-         droidlist = self.removefolders(droidlist)
-         self.droidlist = self.removecontainercontents(droidlist)
+         if droidlist:
+            droidcsvhandler = droidCSVHandler()
+            droidlist = droidcsvhandler.removefolders(droidlist)
+            self.droidlist = droidcsvhandler.removecontainercontents(droidlist)
          self.maptoimportschema()
 
 class RosettaCSVGenerator:
