@@ -165,7 +165,7 @@ class RosettaCSVGenerator:
       self.config.read('import-value-mapping.cfg')   
       
       self.droidcsv = droidcsv
-      self.exportcsv = importschema
+      self.exportcsv = exportcsv
 
    def readExportCSV(self):
       if self.exportcsv != False:
@@ -173,13 +173,12 @@ class RosettaCSVGenerator:
 
    def readDROIDCSV(self):
       if self.droidcsv != False:
-         print "droidcsv"
+         csvhandler = genericCSVHandler()
+         return csvhandler.csvaslist(self.droidcsv)     
 
   #Combine DROID cells and Export cells here... 
   #File Original Path: E1/Speeches/DSCN1872.JPG	 
   #File Name: DSCN1872.JPG
-
-
 
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
