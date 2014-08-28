@@ -95,13 +95,7 @@ class ImportSheetGenerator:
                importcsv = importcsv + ","
             importcsv = importcsv + "\n"
                
-         #sys.stdout.write(importcsv)
-
-   def getDROIDHeaders(self, csvcolumnheaders):
-      header_list = []
-      for header in csvcolumnheaders:      
-         header_list.append(header)
-      return header_list
+         sys.stdout.write(importcsv)
 
    def getURIScheme(self, url):
       return urlparse(url).scheme
@@ -122,25 +116,29 @@ class ImportSheetGenerator:
             newlist.append(row)      
       return newlist
 
+   def getCSVheaders(self, csvcolumnheaders):
+      header_list = []
+      for header in csvcolumnheaders:      
+         header_list.append(header)
+      return header_list
+
+   def __csvaslist__(self, csvfname):
+      csvlist = []
+      with open(csvfname, 'rb') as csvfile:
+         csvreader = unicodecsv.reader(csvfile)
+         for row in csvreader:
+            if csvreader.line_num == 1:		# not zero-based index
+               header_list = self.getCSVheaders(row)
+            else:
+               csv_dict = {}
+               for i,item in enumerate(row):
+                  csv_dict[header_list[i]] = item
+               csvlist.append(csv_dict)
+      return csvlist
+
    def readDROIDCSV(self):
       if self.droidcsv != False:
-         droid_list = []
-
-         with open(self.droidcsv, 'rb') as csvfile:
-            droidreader = unicodecsv.reader(csvfile)
-            for row in droidreader:
-               if droidreader.line_num == 1:		# not zero-based index
-                  header_list = self.getDROIDHeaders(row)
-               else:
-                  droid_dict = {}
-                  for i,item in enumerate(row):
-                     droid_dict[header_list[i]] = item
-                     # get URI Scheme: urlparse(url).scheme
-                     # get DIRNAME os.path.dirname(item)
-                     
-                  droid_list.append(droid_dict)
-         
-         return droid_list
+         return self.__csvaslist__(self.droidcsv)        
 
    def droid2archwayimport(self):
       if self.droidcsv != False and self.importschema != False:
