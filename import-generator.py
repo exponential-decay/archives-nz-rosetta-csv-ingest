@@ -122,7 +122,7 @@ class RosettaCSVGenerator:
 
    def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read('import-value-mapping.cfg')   
+      self.config.read('rosetta-csv-mapping.cfg')   
       
       self.droidcsv = droidcsv
       self.exportsheet = exportsheet
@@ -134,6 +134,14 @@ class RosettaCSVGenerator:
       #Grab Rosetta Sections
       rs = RosettaCSVSections()
       self.rosettasections = rs.sections
+
+   def add_csv_value(self, value):
+      field = ''
+      if type(value) is int:              #TODO: probably a better way to do this (type-agnostic)
+         field = '"' + str(value) + '"'
+      else:
+         field = '"' + value.encode('utf-8') + '"'
+      return field
 
    def readRosettaSchema(self):
       f = open(self.rosettaschema, 'rb')
@@ -147,20 +155,43 @@ class RosettaCSVGenerator:
       self.rosettacsvdict = importschemadict['fields']
       f.close()
 
+   def createcolumns(self, columno):
+      columns = ''
+      for column in range(columno):
+         columns = columns + '"",'
+      return columns
+
    def createrosettacsv(self):
    
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
       
-      for sections in self.rosettasections:
-         for field in sections[sections.keys()[0]]:
-            if field == self.rosettacsvdict[csvindex]['name']:
-               print "ok"
-            else:
-               sys.exit(0)
-            csvindex+=1
-      csvindex=CSVINDEXSTARTPOS
+      rosettacsv = self.rosettacsvheader
+      
+      
+      for item in self.exportlist:
+         for sections in self.rosettasections:
+            for field in sections[sections.keys()[0]]:
+               if field == self.rosettacsvdict[csvindex]['name']:
+                  #if self.config.has_option('rosetta mapping', field):
+                  #   print field
+                  if self.config.has_option('static values', field):
+                     #print field
+                     rosettacsv = rosettacsv + self.add_csv_value(field)
+                     #rosettafield = self.config.get('static values', field)
+                     #rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
+                  else:
+                     rosettacsv = rosettacsv + '""'
+                  rosettacsv = rosettacsv + ','
+               else:
+                  sys.exit(0)
+               csvindex+=1
+            rosettacsv = rosettacsv + '\n'
+         rosettacsv = rosettacsv + '\n'
+         csvindex=CSVINDEXSTARTPOS
          
+      
+      print rosettacsv
       
       #for item in self.exportlist:
       #   for column in self.rosettacsvdict:
@@ -172,8 +203,6 @@ class RosettaCSVGenerator:
       #Combine DROID cells and Export cells here... 
       #File Original Path: E1/Speeches/DSCN1872.JPG	 
       #File Name: DSCN1872.JPG
-
-      print "ok"
 
    def readExportCSV(self):
       if self.exportsheet != False:
