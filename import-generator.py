@@ -148,9 +148,19 @@ class RosettaCSVGenerator:
       f.close()
 
    def createrosettacsv(self):
+   
+      CSVINDEXSTARTPOS = 2
+      csvindex = CSVINDEXSTARTPOS
       
-      #for x in self.rosettasections:
-      #   print x
+      for sections in self.rosettasections:
+         for field in sections[sections.keys()[0]]:
+            if field == self.rosettacsvdict[csvindex]['name']:
+               print "ok"
+            else:
+               sys.exit(0)
+            csvindex+=1
+      csvindex=CSVINDEXSTARTPOS
+         
       
       #for item in self.exportlist:
       #   for column in self.rosettacsvdict:
