@@ -92,7 +92,8 @@ class ImportSheetGenerator:
                   importcsv = importcsv + self.add_csv_value("")
                   
                importcsv = importcsv + ","
-            importcsv = importcsv + "\n"
+
+            importcsv = importcsv.rstrip(',') + "\n"
                
          sys.stdout.write(importcsv)
 
@@ -193,7 +194,7 @@ def main():
    
    if args.csv and args.imp:
       importsheetDROIDmapping(args.csv, args.imp)
-   if args.csv and args.exp and args.ros:
+   elif args.csv and args.exp and args.ros:
       exportsheetRosettamapping(args.csv, args.exp, args.ros)
    else:
       parser.print_help()
