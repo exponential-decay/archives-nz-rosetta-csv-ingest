@@ -8,7 +8,7 @@ sys.path.append(r'JsonTableSchema/')
 import JsonTableSchema
 import ConfigParser
 import argparse
-from droidcsvhandlerclass import droidCSVHandler
+from droidcsvhandlerclass import *
 
 class ImportSheetGenerator:
 
@@ -117,16 +117,26 @@ class RosettaCSVGenerator:
       self.droidcsv = False
       self.exportcsv = False
 
-   def __init__(self, droidcsv=False, exportsheet=False):
+   def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False):
       self.config = ConfigParser.RawConfigParser()
       self.config.read('import-value-mapping.cfg')   
       
       self.droidcsv = droidcsv
       self.exportsheet = exportsheet
+      self.rosettaschema = rosettaschema
+
+   def createrosettacsv(self):
+      #for x in self.exportlist:
+         # for item in record
+         # for column in roestta csv
+      
+         print "ok"
 
    def readExportCSV(self):
       if self.exportsheet != False:
-         print "exportcsv"
+         csvhandler = genericCSVHandler()
+         exportlist = csvhandler.csvaslist(self.exportsheet)
+         return exportlist
    
    def readDROIDCSV(self):
       if self.droidcsv != False:
@@ -135,10 +145,15 @@ class RosettaCSVGenerator:
          droidlist = droidcsvhandler.removefolders(droidlist)
          return droidcsvhandler.removecontainercontents(droidlist)        
 
+   def readRosettaSchema(self):
+      print "read rosetta schema"
+
    def export2rosettacsv(self):
       if self.droidcsv != False and self.exportsheet != False:
          self.droidlist = self.readDROIDCSV()
-         #self.maptoimportschema()
+         self.exportlist = self.readExportCSV()
+         self.readRosettaSchema()
+         #self.createrosettacsv()
 
   #Combine DROID cells and Export cells here... 
   #File Original Path: E1/Speeches/DSCN1872.JPG	 
@@ -148,8 +163,8 @@ def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
    importgenerator.droid2archwayimport()
 
-def exportsheetRosettamapping(droidcsv, exportsheet):
-   csvgen = RosettaCSVGenerator(droidcsv, exportsheet)
+def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema):
+   csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema)
    csvgen.export2rosettacsv()
 
 def main():
@@ -164,6 +179,7 @@ def main():
    parser.add_argument('--csv', help='Single DROID CSV to read.', default=False, required=False)
    parser.add_argument('--imp', help='Archway import schema to use.', default=False, required=False)
    parser.add_argument('--exp', help='Archway export sheet to map to Rosetta ingest CSV', default=False, required=False)
+   parser.add_argument('--ros', help='Rosetta CSV validation schema', default=False, required=False)
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -173,11 +189,14 @@ def main():
    global args
    args = parser.parse_args()
    
+   #TODO: Additional help text to describe two discrete sets of options
+   
    if args.csv and args.imp:
       importsheetDROIDmapping(args.csv, args.imp)
-   if args.csv and args.exp:
-      exportsheetRosettamapping(args.csv, args.exp)
+   if args.csv and args.exp and args.ros:
+      exportsheetRosettamapping(args.csv, args.exp, args.ros)
    else:
+      parser.print_help()
       sys.exit(1)
 
 if __name__ == "__main__":
