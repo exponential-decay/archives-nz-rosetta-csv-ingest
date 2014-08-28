@@ -9,6 +9,7 @@ import JsonTableSchema
 import ConfigParser
 import argparse
 from droidcsvhandlerclass import *
+from rosettacsvsectionsclass import RosettaCSVSections
 
 class ImportSheetGenerator:
 
@@ -117,6 +118,7 @@ class RosettaCSVGenerator:
 
       self.droidcsv = False
       self.exportcsv = False
+      self.rosettaschema = False
 
    def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False):
       self.config = ConfigParser.RawConfigParser()
@@ -128,9 +130,32 @@ class RosettaCSVGenerator:
       #NOTE: A bit of a hack, compare with import schema work and refactor
       self.rosettaschema = rosettaschema
       self.readRosettaSchema()
+      
+      #Grab Rosetta Sections
+      rs = RosettaCSVSections()
+      self.rosettasections = rs.sections
+
+   def readRosettaSchema(self):
+      f = open(self.rosettaschema, 'rb')
+      importschemajson = f.read()
+      importschema = JsonTableSchema.JSONTableSchema(importschemajson)
+      
+      importschemadict = importschema.as_dict()
+      importschemaheader = importschema.as_csv_header()
+
+      self.rosettacsvheader = importschemaheader + "\n"  #TODO: Add newline in JSON Handler class? 
+      self.rosettacsvdict = importschemadict['fields']
+      f.close()
 
    def createrosettacsv(self):
-      #for x in self.exportlist:
+      
+      #for x in self.rosettasections:
+      #   print x
+      
+      #for item in self.exportlist:
+      #   for column in self.rosettacsvdict:
+      #      print column
+            
       # for item in record
       # for column in roestta csv
 
@@ -152,20 +177,6 @@ class RosettaCSVGenerator:
          droidlist = droidcsvhandler.readDROIDCSV(self.droidcsv)
          droidlist = droidcsvhandler.removefolders(droidlist)
          return droidcsvhandler.removecontainercontents(droidlist)        
-
-   def readRosettaSchema(self):
-
-      f = open(self.rosettaschema, 'rb')
-      importschemajson = f.read()
-      importschema = JsonTableSchema.JSONTableSchema(importschemajson)
-      
-      importschemadict = importschema.as_dict()
-      importschemaheader = importschema.as_csv_header()
-
-      self.rosettacsvheader = importschemaheader + "\n"  #TODO: Add newline in JSON Handler class? 
-      self.rosettacsvdict = importschemadict
- 
-      f.close()
       
    def export2rosettacsv(self):
       if self.droidcsv != False and self.exportsheet != False:
