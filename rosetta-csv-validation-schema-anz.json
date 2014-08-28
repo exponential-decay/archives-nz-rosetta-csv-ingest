@@ -130,7 +130,15 @@
         },
         {
             "name": "File Location",
-            "description": "Path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash.",
+            "description": "Directory path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash. Does not contain filename",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false
+            }
+        },
+        {
+            "name": "File Original Path",
+            "description": "File path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false

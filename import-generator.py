@@ -130,8 +130,7 @@ class RosettaCSVGenerator:
       #for x in self.exportlist:
          # for item in record
          # for column in roestta csv
-      
-         print "ok"
+      print "ok"
 
    def readExportCSV(self):
       if self.exportsheet != False:
@@ -147,8 +146,22 @@ class RosettaCSVGenerator:
          return droidcsvhandler.removecontainercontents(droidlist)        
 
    def readRosettaSchema(self):
-      print "read rosetta schema"
 
+      f = open(self.rosettaschema, 'rb')
+      
+      importschemajson = f.read()
+      importschema = JsonTableSchema.JSONTableSchema(importschemajson)
+      importschemadict = importschema.as_dict()
+      importschemaheader = importschema.as_csv_header()
+
+      importcsv = importschemaheader + "\n"
+
+      print importschemaheader
+         
+         
+      f.close()
+      
+      
    def export2rosettacsv(self):
       if self.droidcsv != False and self.exportsheet != False:
          self.droidlist = self.readDROIDCSV()
