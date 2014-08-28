@@ -124,12 +124,20 @@ class RosettaCSVGenerator:
       
       self.droidcsv = droidcsv
       self.exportsheet = exportsheet
+      
+      #NOTE: A bit of a hack, compare with import schema work and refactor
       self.rosettaschema = rosettaschema
+      self.readRosettaSchema()
 
    def createrosettacsv(self):
       #for x in self.exportlist:
-         # for item in record
-         # for column in roestta csv
+      # for item in record
+      # for column in roestta csv
+
+      #Combine DROID cells and Export cells here... 
+      #File Original Path: E1/Speeches/DSCN1872.JPG	 
+      #File Name: DSCN1872.JPG
+
       print "ok"
 
    def readExportCSV(self):
@@ -148,30 +156,23 @@ class RosettaCSVGenerator:
    def readRosettaSchema(self):
 
       f = open(self.rosettaschema, 'rb')
-      
       importschemajson = f.read()
       importschema = JsonTableSchema.JSONTableSchema(importschemajson)
+      
       importschemadict = importschema.as_dict()
       importschemaheader = importschema.as_csv_header()
 
-      importcsv = importschemaheader + "\n"
-
-      print importschemaheader
-         
-         
+      self.rosettacsvheader = importschemaheader + "\n"  #TODO: Add newline in JSON Handler class? 
+      self.rosettacsvdict = importschemadict
+ 
       f.close()
-      
       
    def export2rosettacsv(self):
       if self.droidcsv != False and self.exportsheet != False:
          self.droidlist = self.readDROIDCSV()
          self.exportlist = self.readExportCSV()
-         self.readRosettaSchema()
-         #self.createrosettacsv()
-
-  #Combine DROID cells and Export cells here... 
-  #File Original Path: E1/Speeches/DSCN1872.JPG	 
-  #File Name: DSCN1872.JPG
+         #self.readRosettaSchema()  #NOTE: Moved to constructor... TODO: Refactor
+         self.createrosettacsv()
 
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
