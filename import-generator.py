@@ -19,6 +19,8 @@ class genericCSVHandler():
          header_list.append(header)
       return header_list
 
+   # returns list of rows, each row is a dictionary
+   # header: value, pair. 
    def csvaslist(self, csvfname):
       csvlist = []
       with open(csvfname, 'rb') as csvfile:
@@ -160,21 +162,30 @@ class RosettaCSVGenerator:
       self.droidcsv = False
       self.exportcsv = False
 
-   def __init__(self, droidcsv=False, exportcsv=False):
+   def __init__(self, droidcsv=False, exportsheet=False):
       self.config = ConfigParser.RawConfigParser()
       self.config.read('import-value-mapping.cfg')   
       
       self.droidcsv = droidcsv
-      self.exportcsv = exportcsv
+      self.exportsheet = exportsheet
 
    def readExportCSV(self):
-      if self.exportcsv != False:
+      if self.exportsheet != False:
          print "exportcsv"
 
    def readDROIDCSV(self):
       if self.droidcsv != False:
          csvhandler = genericCSVHandler()
          return csvhandler.csvaslist(self.droidcsv)     
+
+   def export2rosettacsv(self):
+      print "ok"
+      if self.droidcsv != False and self.exportsheet != False:
+         droidlist = self.readDROIDCSV()
+         print droidlist
+         #droidlist = self.removefolders(droidlist)
+         #self.droidlist = self.removecontainercontents(droidlist)
+         #self.maptoimportschema()
 
   #Combine DROID cells and Export cells here... 
   #File Original Path: E1/Speeches/DSCN1872.JPG	 
@@ -185,7 +196,8 @@ def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator.droid2archwayimport()
 
 def exportsheetRosettamapping(droidcsv, exportsheet):
-   csvgen = RosettaCSVGenerator()
+   csvgen = RosettaCSVGenerator(droidcsv, exportsheet)
+   csvgen.export2rosettacsv()
 
 def main():
 
