@@ -171,8 +171,15 @@ class RosettaCSVGenerator:
 
       for item in self.exportlist:
          itemrow = []
+         
+         #Static ROW in CSV Ingest Sheet
+         SIPROW = ['""'] * rowlen
+         SIPROW[0] = "SIP"
+         SIPROW[1] = "CSV Load"
+         
+         itemrow.append(SIPROW)
          for sections in self.rosettasections:
-            sectionrow = [None] * rowlen
+            sectionrow = ['""'] * rowlen
             sectionrow[0] = self.add_csv_value(sections.keys()[0])
             
             for field in sections[sections.keys()[0]]:
@@ -188,35 +195,22 @@ class RosettaCSVGenerator:
                else:
                   sys.exit(0)
                csvindex+=1
-
+               
             itemrow.append(sectionrow)
-         
          fields.append(itemrow)
          csvindex=CSVINDEXSTARTPOS
-      
-      
+
       csvrows = self.rosettacsvheader
       
       for aggregate in fields:
          rowdata = ""
          for sect in aggregate:
             for val in sect:
-               if val == None:
-                  rowdata = rowdata + '""'
-               else:
-                  rowdata = rowdata + val
-               rowdata = rowdata + ','
+               rowdata = rowdata + val + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
       print csvrows
       
-      #for item in self.exportlist:
-      #   for column in self.rosettacsvdict:
-      #      print column
-            
-      # for item in record
-      # for column in roestta csv
-
       #Combine DROID cells and Export cells here... 
       #File Original Path: E1/Speeches/DSCN1872.JPG	 
       #File Name: DSCN1872.JPG
