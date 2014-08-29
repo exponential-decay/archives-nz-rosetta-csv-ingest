@@ -169,12 +169,17 @@ class RosettaCSVGenerator:
       
       rosettacsv = self.rosettacsvheader
       
+      fields = []
+      
       
       for item in self.exportlist:
+         itemrow = []
          for sections in self.rosettasections:
-         
-            rosettacsv = rosettacsv + self.add_csv_value(sections.keys()[0]) + ','
-            rosettacsv = rosettacsv + self.add_csv_value('') + ','
+            sectionrow = [None] * rowlen
+            sectionrow[0] = self.add_csv_value(sections.keys()[0])
+            
+            #rosettacsv = rosettacsv + self.add_csv_value(sections.keys()[0]) + ','
+            #rosettacsv = rosettacsv + self.add_csv_value('') + ','
             
             for field in sections[sections.keys()[0]]:
                
@@ -184,22 +189,27 @@ class RosettaCSVGenerator:
                   #   print field
                   if self.config.has_option('static values', field):
                      rosettafield = self.config.get('static values', field)
-                     rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
+                     #rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
+                     sectionrow[csvindex] = self.add_csv_value(rosettafield)
+                     
                   else:
-                     rosettacsv = rosettacsv + self.add_csv_value(field)
+                     sectionrow[csvindex] = self.add_csv_value(field)
+                     #rosettacsv = rosettacsv + self.add_csv_value(field)
                   rosettacsv = rosettacsv + ','
                else:
                   sys.exit(0)
                csvindex+=1
             if csvindex < rowlen:
-               print "column print: " + str(rowlen-csvindex)
+               #print "column print: " + str(rowlen-csvindex)
                rosettacsv=rosettacsv+self.createcolumns(rowlen-csvindex)
+            print str(len(sectionrow)) + " " + str(sectionrow)
             rosettacsv = rosettacsv + '\n'
+         print "\n"
          rosettacsv = rosettacsv + '\n'
          csvindex=CSVINDEXSTARTPOS
          
       
-      #print rosettacsv
+      print fields
       
       #for item in self.exportlist:
       #   for column in self.rosettacsvdict:
