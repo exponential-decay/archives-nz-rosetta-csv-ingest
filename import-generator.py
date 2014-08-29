@@ -164,18 +164,40 @@ class RosettaCSVGenerator:
    def grabdroidvalue(self, value):
       print "get droid value"
 
+   def csvstringoutput(self, csvlist):
+      #String output...
+      csvrows = self.rosettacsvheader
+
+      #TODO: Understand how to get this in rosettacsvsectionclass
+      #NOTE: Possibly put all basic RosettaCSV stuff in rosettacsvsectionclass?
+      #Static ROW in CSV Ingest Sheet
+      SIPROW = ['"",'] * len(self.rosettacsvdict)
+      SIPROW[0] = '"SIP",'
+      SIPROW[1] = '"CSV Load",'
+     
+      csvrows = csvrows + ''.join(SIPROW) + '\n'
+      
+      for sectionrows in csvlist:
+         rowdata = ""
+         for sectionrow in sectionrows:
+            for fielddata in sectionrow:
+               rowdata = rowdata + fielddata + ','
+            rowdata = rowdata.rstrip(',') + '\n'
+         csvrows = csvrows + rowdata
+      sys.stdout.write(csvrows)
+
+
    def createrosettacsv(self):
    
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
-      rowlen = len(self.rosettacsvdict)
       
       fields = []
 
       for item in self.exportlist:
          itemrow = []
          for sections in self.rosettasections:
-            sectionrow = ['""'] * rowlen
+            sectionrow = ['""'] * len(self.rosettacsvdict)
             sectionrow[0] = self.add_csv_value(sections.keys()[0])
             
             for field in sections[sections.keys()[0]]:
@@ -183,10 +205,10 @@ class RosettaCSVGenerator:
                   if self.config.has_option('rosetta mapping', field):
                      rosettafield = self.config.get('rosetta mapping', field)
                      sectionrow[csvindex] = self.add_csv_value(item[rosettafield])
-                  if self.config.has_option('static values', field):
+                  elif self.config.has_option('static values', field):
                      rosettafield = self.config.get('static values', field)
                      sectionrow[csvindex] = self.add_csv_value(rosettafield)
-                  if self.config.has_option('droid mapping', field):
+                  elif self.config.has_option('droid mapping', field):
                      #get export sheet MD5 value
                      #find DROID row with correct MD5
                      #get the values we need
@@ -202,28 +224,8 @@ class RosettaCSVGenerator:
             itemrow.append(sectionrow)
          fields.append(itemrow)
          csvindex=CSVINDEXSTARTPOS
-
-      #String output...
-      csvrows = self.rosettacsvheader
-
-      #TODO: Understand how to get this in rosettacsvsectionclass
-      #NOTE: Possibly put all basic RosettaCSV stuff in rosettacsvsectionclass?
-      #Static ROW in CSV Ingest Sheet
-      SIPROW = ['"",'] * rowlen
-      SIPROW[0] = '"SIP",'
-      SIPROW[1] = '"CSV Load",'
-     
-      csvrows = csvrows + ''.join(SIPROW) + '\n'
       
-      for sectionrows in fields:
-         rowdata = ""
-         for sectionrow in sectionrows:
-            for fielddata in sectionrow:
-               rowdata = rowdata + fielddata + ','
-            rowdata = rowdata.rstrip(',') + '\n'
-         csvrows = csvrows + rowdata
-      sys.stdout.write(csvrows)
-      
+      self.csvstringoutput(fields)
       #Combine DROID cells and Export cells here... 
       #File Original Path: E1/Speeches/DSCN1872.JPG	 
       #File Name: DSCN1872.JPG
