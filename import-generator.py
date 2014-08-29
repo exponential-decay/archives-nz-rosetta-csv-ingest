@@ -167,49 +167,48 @@ class RosettaCSVGenerator:
       csvindex = CSVINDEXSTARTPOS
       rowlen = len(self.rosettacsvdict)
       
-      rosettacsv = self.rosettacsvheader
-      
       fields = []
-      
-      
+
       for item in self.exportlist:
          itemrow = []
          for sections in self.rosettasections:
             sectionrow = [None] * rowlen
             sectionrow[0] = self.add_csv_value(sections.keys()[0])
             
-            #rosettacsv = rosettacsv + self.add_csv_value(sections.keys()[0]) + ','
-            #rosettacsv = rosettacsv + self.add_csv_value('') + ','
-            
             for field in sections[sections.keys()[0]]:
                
-            
                if field == self.rosettacsvdict[csvindex]['name']:
                   #if self.config.has_option('rosetta mapping', field):
                   #   print field
                   if self.config.has_option('static values', field):
                      rosettafield = self.config.get('static values', field)
-                     #rosettacsv = rosettacsv + self.add_csv_value(rosettafield)
                      sectionrow[csvindex] = self.add_csv_value(rosettafield)
-                     
                   else:
                      sectionrow[csvindex] = self.add_csv_value(field)
-                     #rosettacsv = rosettacsv + self.add_csv_value(field)
-                  rosettacsv = rosettacsv + ','
                else:
                   sys.exit(0)
                csvindex+=1
-            if csvindex < rowlen:
-               #print "column print: " + str(rowlen-csvindex)
-               rosettacsv=rosettacsv+self.createcolumns(rowlen-csvindex)
-            print str(len(sectionrow)) + " " + str(sectionrow)
-            rosettacsv = rosettacsv + '\n'
-         print "\n"
-         rosettacsv = rosettacsv + '\n'
-         csvindex=CSVINDEXSTARTPOS
+
+            itemrow.append(sectionrow)
          
+         fields.append(itemrow)
+         csvindex=CSVINDEXSTARTPOS
       
-      print fields
+      
+      csvrows = self.rosettacsvheader
+      
+      for aggregate in fields:
+         rowdata = ""
+         for sect in aggregate:
+            for val in sect:
+               if val == None:
+                  rowdata = rowdata + '""'
+               else:
+                  rowdata = rowdata + val
+               rowdata = rowdata + ','
+            rowdata = rowdata.rstrip(',') + '\n'
+         csvrows = csvrows + rowdata
+      print csvrows
       
       #for item in self.exportlist:
       #   for column in self.rosettacsvdict:
