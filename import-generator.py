@@ -186,7 +186,6 @@ class RosettaCSVGenerator:
          csvrows = csvrows + rowdata
       sys.stdout.write(csvrows)
 
-
    def createrosettacsv(self):
    
       CSVINDEXSTARTPOS = 2
@@ -204,7 +203,11 @@ class RosettaCSVGenerator:
                if field == self.rosettacsvdict[csvindex]['name']:
                   if self.config.has_option('rosetta mapping', field):
                      rosettafield = self.config.get('rosetta mapping', field)
-                     sectionrow[csvindex] = self.add_csv_value(item[rosettafield])
+                     addvalue = item[rosettafield]
+                     if field == 'Access':
+                        if self.config.has_option('access values', item[rosettafield]):
+                           addvalue = self.config.get('access values', item[rosettafield])
+                     sectionrow[csvindex] = self.add_csv_value(addvalue)
                   elif self.config.has_option('static values', field):
                      rosettafield = self.config.get('static values', field)
                      sectionrow[csvindex] = self.add_csv_value(rosettafield)
