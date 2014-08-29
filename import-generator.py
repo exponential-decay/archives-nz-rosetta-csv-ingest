@@ -210,10 +210,7 @@ class RosettaCSVGenerator:
          
          for sections in self.rosettasections:
             sectionrow = ['""'] * len(self.rosettacsvdict)
-            sectionrow[0] = self.add_csv_value(sections.keys()[0])
-            
-            md5 = ''
-            
+            sectionrow[0] = self.add_csv_value(sections.keys()[0])            
             for field in sections[sections.keys()[0]]:
                if field == self.rosettacsvdict[csvindex]['name']:
                   if self.config.has_option('rosetta mapping', field):
