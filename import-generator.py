@@ -204,14 +204,14 @@ class RosettaCSVGenerator:
 
       csvrows = self.rosettacsvheader
       
-      for aggregate in fields:
+      for sectionrows in fields:
          rowdata = ""
-         for sect in aggregate:
-            for val in sect:
-               rowdata = rowdata + val + ','
+         for sectionrow in sectionrows:
+            for fielddata in sectionrow:
+               rowdata = rowdata + fielddata + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
-      print csvrows
+      sys.stdout.write(csvrows)
       
       #Combine DROID cells and Export cells here... 
       #File Original Path: E1/Speeches/DSCN1872.JPG	 
