@@ -172,6 +172,8 @@ class RosettaCSVGenerator:
       for item in self.exportlist:
          itemrow = []
          
+         #TODO: Understand how to get this in rosettacsvsectionclass
+         #NOTE: Possibly put all basic RosettaCSV stuff in rosettacsvsectionclass?
          #Static ROW in CSV Ingest Sheet
          SIPROW = ['""'] * rowlen
          SIPROW[0] = "SIP"
