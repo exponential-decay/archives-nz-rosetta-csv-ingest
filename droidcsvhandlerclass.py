@@ -49,5 +49,13 @@ class droidCSVHandler():
             newlist.append(row)      
       return newlist
  
+   def retrievefolderlist(self, droidlist):
+      newlist = []
+      for row in droidlist:
+         if row['TYPE'] == 'Folder':
+            newlist.append(row['FILE_PATH'])
+            
+      return newlist
+      
    def getURIScheme(self, url):
       return urlparse(url).scheme

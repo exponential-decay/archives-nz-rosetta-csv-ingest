@@ -110,6 +110,60 @@ class ImportSheetGenerator:
          self.droidlist = self.readDROIDCSV()
          self.maptoimportschema()
 
+class ImportOverviewGenerator:
+
+   def __init__(self):
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('import-value-mapping.cfg')   
+
+      self.droidcsv = False
+
+   def __init__(self, droidcsv=False):
+      self.config = ConfigParser.RawConfigParser()
+      self.config.read('import-value-mapping.cfg')   
+      
+      self.droidcsv = droidcsv
+
+   #TODO: Quick and dirty... rework so it's a little more refined
+   def outputOverview(self):
+      uniquefolderlist = set(self.droidlist)
+      folderlist = []
+      
+      #TODO: Check for existence of key...?
+      pathmask = self.config.get('additional values', 'pathmask')
+ 
+      for folder in uniquefolderlist:
+         foldertext = str(folder).replace(pathmask, "")
+         #replace doesn't seem to capture all options
+         if foldertext not in pathmask:     # foldertext subset of pathmask
+            folderlist.append(foldertext)
+      
+      sys.stdout.write('"Archway Listing Template"' + '\n')
+      sys.stdout.write('"Access Restrictions:"' + '\n')
+      sys.stdout.write('"Agency Comment:"' + '\n\n')
+
+      sys.stdout.write('"Agency","Accession","Series","Sub Series"' + '\n')
+      
+      agency = self.config.get('static values', 'Agency')
+      series = self.config.get('static values', 'Actual Series')
+      accession = self.config.get('static values', 'Accession No.')
+
+      sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folderlist[0] + '"' + '\n')
+      
+      for folder in folderlist[1:]:
+         sys.stdout.write('"","","","' + folder + '"' + '\n') 
+      
+   def readDROIDCSV(self):
+      if self.droidcsv != False:
+         droidcsvhandler = droidCSVHandler()
+         droidlist = droidcsvhandler.readDROIDCSV(self.droidcsv)     
+         return droidcsvhandler.retrievefolderlist(droidlist)
+
+   def createOverviewSheet(self):
+      if self.droidcsv != False:
+         self.droidlist = self.readDROIDCSV()
+         self.outputOverview()
+
 class RosettaCSVGenerator:
 
    def __init__(self):
@@ -264,6 +318,10 @@ class RosettaCSVGenerator:
          #self.readRosettaSchema()  #NOTE: Moved to constructor... TODO: Refactor
          self.createrosettacsv()
 
+def createImportOverview(droidcsv):
+   createoverview = ImportOverviewGenerator(droidcsv)
+   createoverview.createOverviewSheet()
+
 def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
    importgenerator.droid2archwayimport()
@@ -300,6 +358,8 @@ def main():
       importsheetDROIDmapping(args.csv, args.imp)
    elif args.csv and args.exp and args.ros:
       exportsheetRosettamapping(args.csv, args.exp, args.ros)
+   elif args.csv:
+      createImportOverview(args.csv)
    else:
       parser.print_help()
       sys.exit(1)
