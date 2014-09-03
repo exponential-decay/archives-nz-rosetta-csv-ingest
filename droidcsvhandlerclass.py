@@ -1,4 +1,4 @@
-import unicodecsv
+﻿import unicodecsv
 from urlparse import urlparse
 
 class genericCSVHandler():
