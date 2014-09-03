@@ -187,7 +187,7 @@ class RosettaCSVGenerator:
       SIPROW[0] = '"SIP",'
       SIPROW[1] = '"CSV Load",'
      
-      csvrows = csvrows + ''.join(SIPROW) + '\n'
+      csvrows = csvrows + ''.join(SIPROW).rstrip(',') + '\n'
       
       for sectionrows in csvlist:
          rowdata = ""
@@ -231,7 +231,7 @@ class RosettaCSVGenerator:
                      if self.config.has_option('path values', 'pathmask'):
                         pathmask = self.config.get('path values', 'pathmask')
      
-                     sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['MD5 value'], field, rosettafield, pathmask))
+                     sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], field, rosettafield, pathmask))
                   else:
                      sectionrow[csvindex] = self.add_csv_value(field)
                else:
