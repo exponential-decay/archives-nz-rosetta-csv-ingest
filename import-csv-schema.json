@@ -65,6 +65,11 @@
             "type": "http://www.w3.org/2001/XMLSchema#string"
         },
         {
+            "name": "Prefix",
+            "description": "A description of the field we're describing here.",
+            "type": "http://www.w3.org/2001/XMLSchema#string"
+        },
+        {
             "name": "Title",
             "description": "A description of the field we're describing here.",
             "type": "http://www.w3.org/2001/XMLSchema#string"
