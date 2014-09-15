@@ -18,12 +18,16 @@ class ImportSheetGenerator:
       self.droidcsv = False
       self.importschema = False
 
+      self.pathmask = self.config.get('additional values', 'pathmask')
+
    def __init__(self, droidcsv=False, importschema=False):
       self.config = ConfigParser.RawConfigParser()
       self.config.read('import-value-mapping.cfg')   
       
       self.droidcsv = droidcsv
       self.importschema = importschema
+      
+      self.pathmask = self.config.get('additional values', 'pathmask')
 
    def retrieve_year_from_modified_date(self, MODIFIED_DATE):
       year = ""
@@ -41,6 +45,9 @@ class ImportSheetGenerator:
       else:
          field = '"' + value.encode('utf-8') + '"'
       return field
+
+   def get_title(self, path):
+      return path.replace(self.pathmask, "")
 
    def maptoimportschema(self):
       
@@ -67,7 +74,7 @@ class ImportSheetGenerator:
                   fieldtext = ""
                   if droidfield == 'FILE_PATH':
                      dir = os.path.dirname(filerow['FILE_PATH'])
-                     fieldtext = dir.replace(self.config.get('additional values', 'pathmask'), "")
+                     fieldtext = self.get_title(dir)
                   if droidfield == 'NAME':
                      fieldtext = filerow['NAME'].rsplit('.', 1)[0]  #split once at full-stop (assumptuon 'ext' follows)
                   if droidfield == 'MD5_HASH':
