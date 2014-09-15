@@ -46,8 +46,11 @@ class ImportSheetGenerator:
          field = '"' + value.encode('utf-8') + '"'
       return field
 
-   def get_title(self, path):
+   def get_path(self, path):
       return path.replace(self.pathmask, "")
+
+   def get_title(self, title):
+      return title.rsplit('.', 1)[0]  #split once at full-stop (assumptuon 'ext' follows)
 
    def maptoimportschema(self):
       
@@ -74,9 +77,9 @@ class ImportSheetGenerator:
                   fieldtext = ""
                   if droidfield == 'FILE_PATH':
                      dir = os.path.dirname(filerow['FILE_PATH'])
-                     fieldtext = self.get_title(dir)
+                     fieldtext = self.get_path(dir)
                   if droidfield == 'NAME':
-                     fieldtext = filerow['NAME'].rsplit('.', 1)[0]  #split once at full-stop (assumptuon 'ext' follows)
+                     fieldtext = self.get_title(filerow['NAME'])
                   if droidfield == 'MD5_HASH':
                      fieldtext = filerow['MD5_HASH']
                   if droidfield == 'LAST_MODIFIED':
