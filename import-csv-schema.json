@@ -4,7 +4,7 @@
 	 "validator": "http://csvlint.io/",
 	 "standard" : "http://dataprotocols.org/json-table-schema/",
     "fields": [
-        {
+        { 
             "name": "Missing Type",
             "description": "A description of the field we're describing here.",
             "type": "http://www.w3.org/2001/XMLSchema#string"
