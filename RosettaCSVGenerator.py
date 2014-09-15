@@ -8,6 +8,7 @@ import ConfigParser
 import JsonTableSchema
 from droidcsvhandlerclass import *
 from rosettacsvsectionsclass import RosettaCSVSections
+from ImportSheetGenerator import ImportSheetGenerator
 
 class RosettaCSVGenerator:
 
@@ -33,6 +34,9 @@ class RosettaCSVGenerator:
       #Grab Rosetta Sections
       rs = RosettaCSVSections()
       self.rosettasections = rs.sections
+      
+      #Get some functions from ImportGenerator
+      self.impgen = ImportSheetGenerator()
 
    def add_csv_value(self, value):
       field = ''
@@ -60,19 +64,20 @@ class RosettaCSVGenerator:
          columns = columns + '"",'
       return columns
 
-   def grabdroidvalue(self, md5, field, rosettafield, pathmask):
+   def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
+   
       #TODO: Potentially index droidlist by MD5 or SHA-256 in future...
       returnfield = ""      
       for drow in self.droidlist:
          if drow['MD5_HASH'] == md5:
-            droidfield = drow[rosettafield]
-            
-            if field == 'File Location':
-               returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
-            if field == 'File Original Path':
-               returnfield = droidfield.replace(pathmask, '').replace('\\','/')
-            if field == 'File Name':
-               returnfield = droidfield
+            if self.impgen.get_title(drow['NAME']) == itemtitle:
+               droidfield = drow[rosettafield]
+               if field == 'File Location':
+                  returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
+               if field == 'File Original Path':
+                  returnfield = droidfield.replace(pathmask, '').replace('\\','/')
+               if field == 'File Name':
+                  returnfield = droidfield
       return returnfield
      
    def csvstringoutput(self, csvlist):
@@ -130,7 +135,7 @@ class RosettaCSVGenerator:
                      if self.config.has_option('path values', 'pathmask'):
                         pathmask = self.config.get('path values', 'pathmask')
      
-                     sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], field, rosettafield, pathmask))
+                     sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
                   else:
                      sectionrow[csvindex] = self.add_csv_value(field)
                else:
