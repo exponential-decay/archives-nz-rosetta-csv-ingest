@@ -131,6 +131,7 @@ class RosettaCSVGenerator:
                      rosettafield = self.config.get('droid mapping', field)
                      
                      #get pathmask for location values...
+                     #TODO: Only need to do this once somewhere... e.g. Constructor
                      pathmask = ""
                      if self.config.has_option('path values', 'pathmask'):
                         pathmask = self.config.get('path values', 'pathmask')
