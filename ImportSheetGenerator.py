@@ -50,7 +50,7 @@ class ImportSheetGenerator:
       return path.replace(self.pathmask, "")
 
    def get_title(self, title):
-      return title.rsplit('.', 1)[0]  #split once at full-stop (assumptuon 'ext' follows)
+      return title.rsplit('.', 1)[0].rstrip()  #split once at full-stop (assumptuon 'ext' follows)
 
    def maptoimportschema(self):
       
