@@ -16,8 +16,8 @@ def importsheetDROIDmapping(droidcsv, importschema):
    importgenerator = ImportSheetGenerator(droidcsv, importschema)
    importgenerator.droid2archwayimport()
 
-def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema):
-   csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema)
+def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile):
+   csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile)
    csvgen.export2rosettacsv()
 
 def main():
@@ -33,6 +33,7 @@ def main():
    parser.add_argument('--imp', help='Archway import schema to use.', default=False, required=False)
    parser.add_argument('--exp', help='Archway export sheet to map to Rosetta ingest CSV', default=False, required=False)
    parser.add_argument('--ros', help='Rosetta CSV validation schema', default=False, required=False)
+   parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=True)
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -46,8 +47,8 @@ def main():
    
    if args.csv and args.imp:
       importsheetDROIDmapping(args.csv, args.imp)
-   elif args.csv and args.exp and args.ros:
-      exportsheetRosettamapping(args.csv, args.exp, args.ros)
+   elif args.csv and args.exp and args.ros and args.cfg:
+      exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg)
    elif args.csv:
       createImportOverview(args.csv)
    else:

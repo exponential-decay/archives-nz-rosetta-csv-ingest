@@ -14,15 +14,15 @@ class RosettaCSVGenerator:
 
    def __init__(self):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read('rosetta-csv-mapping.cfg')   
+      self.config.read('rosetta-csv-mapping.cfg')   # TODO: Consider purpose of init
 
       self.droidcsv = False
       self.exportcsv = False
       self.rosettaschema = False
 
-   def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False):
+   def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False, configfile=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read('rosetta-csv-mapping.cfg')   
+      self.config.read(configfile)   
       
       self.droidcsv = droidcsv
       self.exportsheet = exportsheet
@@ -32,7 +32,7 @@ class RosettaCSVGenerator:
       self.readRosettaSchema()
       
       #Grab Rosetta Sections
-      rs = RosettaCSVSections()
+      rs = RosettaCSVSections(configfile)
       self.rosettasections = rs.sections
       
       #Get some functions from ImportGenerator
