@@ -70,10 +70,6 @@ class RosettaCSVGenerator:
       returnfield = ""      
       for drow in self.droidlist:
          if drow['MD5_HASH'] == md5:
-         
-            print self.impgen.get_title(drow['NAME']).encode('utf-8')
-            print itemtitle.encode('utf-8')
-         
             if self.impgen.get_title(drow['NAME']) == self.impgen.get_title(itemtitle):
                droidfield = drow[rosettafield]
                if field == 'File Location':
@@ -104,7 +100,7 @@ class RosettaCSVGenerator:
                rowdata = rowdata + fielddata + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
-      #sys.stdout.write(csvrows)
+      sys.stdout.write(csvrows)
 
    def createrosettacsv(self):
       
