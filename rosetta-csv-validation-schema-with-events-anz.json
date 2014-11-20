@@ -138,48 +138,6 @@
             }
         },
         {
-            "name": "File Location",
-            "description": "Directory path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash. Does not contain filename",
-            "type": "http://www.w3.org/2001/XMLSchema#string",
-            "constraints": {
-                "required": false
-            }
-        },
-        {
-            "name": "File Original Path",
-            "description": "File path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash.",
-            "type": "http://www.w3.org/2001/XMLSchema#string",
-            "constraints": {
-                "required": false
-            }
-        },
-        {
-            "name": "File Name",
-            "description": "File name, including extension, of file to be uploaded.",
-            "type": "http://www.w3.org/2001/XMLSchema#string",
-            "constraints": {
-                "required": false
-            }
-        },
-        {
-            "name": "File fixity type",
-            "description": "Checksum type to be used to validate integrity of file to be uploaded.",
-            "type": "http://www.w3.org/2001/XMLSchema#string",
-            "constraints": {
-                "required": false,
-                "pattern": "((MD5)|^$)"
-            }
-        },
-        {
-            "name": "File fixity value",
-            "description": "Hash generated for the file to be uploaded.",
-            "type": "http://www.w3.org/2001/XMLSchema#string",
-            "constraints": {
-                "required": false,
-                "pattern": "(^([a-fA-F\\d]{32})$|^$)"
-            }
-        },
-        {
             "name": "Event Identifier Type",
             "description": "Type of event ID we're assigning. This will always be EXTERNAL in CSV",
             "type": "http://www.w3.org/2001/XMLSchema#string",
@@ -296,6 +254,48 @@
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
                 "required": false
+            }
+        },
+        {
+            "name": "File Location",
+            "description": "Directory path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash. Does not contain filename",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false
+            }
+        },
+        {
+            "name": "File Original Path",
+            "description": "File path to location of file to be uploaded. Path begins at root of ZIP and does not begin with an opening slash.",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false
+            }
+        },
+        {
+            "name": "File Name",
+            "description": "File name, including extension, of file to be uploaded.",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false
+            }
+        },
+        {
+            "name": "File fixity type",
+            "description": "Checksum type to be used to validate integrity of file to be uploaded.",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false,
+                "pattern": "((MD5)|^$)"
+            }
+        },
+        {
+            "name": "File fixity value",
+            "description": "Hash generated for the file to be uploaded.",
+            "type": "http://www.w3.org/2001/XMLSchema#string",
+            "constraints": {
+                "required": false,
+                "pattern": "(^([a-fA-F\\d]{32})$|^$)"
             }
         }
     ]
