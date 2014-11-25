@@ -93,6 +93,9 @@ class RosettaCSVGenerator:
      
       csvrows = csvrows + ''.join(SIPROW).rstrip(',') + '\n'
       
+      #write utf-8 BOM
+      sys.stdout.write(u'\uFEFF'.encode('utf-8'))
+      
       for sectionrows in csvlist:
          rowdata = ""
          for sectionrow in sectionrows:
