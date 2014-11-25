@@ -64,13 +64,14 @@ class RosettaCSVGenerator:
          columns = columns + '"",'
       return columns
 
+   #NOTE: itemtitle is title from Archway Export list...
    def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
    
       #TODO: Potentially index droidlist by MD5 or SHA-256 in future...
       returnfield = ""      
       for drow in self.droidlist:
          if drow['MD5_HASH'] == md5:
-            if self.impgen.get_title(drow['NAME']) == self.impgen.get_title(itemtitle):
+            if self.impgen.get_title(drow['NAME']) == itemtitle:
                droidfield = drow[rosettafield]
                if field == 'File Location':
                   returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
@@ -94,7 +95,8 @@ class RosettaCSVGenerator:
       csvrows = csvrows + ''.join(SIPROW).rstrip(',') + '\n'
       
       #write utf-8 BOM
-      sys.stdout.write(u'\uFEFF'.encode('utf-8'))
+      # NOTE: Don't write UTF-8 BOM... Rosetta doesn't like this. 
+      #sys.stdout.write(u'\uFEFF'.encode('utf-8'))
       
       for sectionrows in csvlist:
          rowdata = ""
@@ -139,6 +141,7 @@ class RosettaCSVGenerator:
                      if self.config.has_option('path values', 'pathmask'):
                         pathmask = self.config.get('path values', 'pathmask')
      
+                     #item[xxx] is the value from the export list
                      sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
                   else:
                      sectionrow[csvindex] = self.add_csv_value(field)
