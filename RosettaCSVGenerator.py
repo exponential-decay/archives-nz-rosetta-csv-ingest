@@ -70,7 +70,8 @@ class RosettaCSVGenerator:
       # DROID NAME column used to generate title in Import Sheet
       droid_filename_title = self.impgen.get_title(droidrow['NAME'])
 
-      if droid_filename_title == listcontroltitle:
+      # normalize spaces and compare (for when list control adopts original title)
+      if self.normalize_spaces(droid_filename_title) == self.normalize_spaces(listcontroltitle):
          comparison = True
       else:
          #Fail but don't exit desirable(?) so as to see all errors at once
