@@ -28,8 +28,8 @@ class RosettaCSVGenerator:
          rs = RosettaCSVSections(configfile)
          self.rosettasections = rs.sections
          
-         #Get some functions from ImportGenerator
-         self.impgen = ImportSheetGenerator()
+      #Get some functions from ImportGenerator
+      self.impgen = ImportSheetGenerator()
 
    def add_csv_value(self, value):
       field = ''
@@ -63,6 +63,21 @@ class RosettaCSVGenerator:
          return self.normalize_spaces(filename)
       return filename
 
+   def compare_filenames_as_titles(self, droidrow, listcontroltitle):
+
+      comparison = False
+
+      # DROID NAME column used to generate title in Import Sheet
+      droid_filename_title = self.impgen.get_title(droidrow['NAME'])
+
+      if droid_filename_title == listcontroltitle:
+         comparison = True
+      else:
+         #Fail but don't exit desirable(?) so as to see all errors at once
+         sys.stderr.write("Filename comparison has failed. Check list control: " + listcontroltitle + " vs. DROID export: " + droid_filename_title + "\n")
+      
+      return comparison
+
    #NOTE: itemtitle is title from Archway Export list...
    def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
    
@@ -70,7 +85,7 @@ class RosettaCSVGenerator:
       returnfield = ""      
       for drow in self.droidlist:
          if drow['MD5_HASH'] == md5:
-            if self.impgen.get_title(drow['NAME']) == itemtitle:
+            if self.compare_filenames_as_titles(drow, itemtitle):
                droidfield = drow[rosettafield]
                if field == 'File Location':
                   returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
