@@ -81,7 +81,6 @@ class RosettaCSVGenerator:
 
    #NOTE: itemtitle is title from Archway List Control...
    def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
-   
       #TODO: Potentially index droidlist by MD5 or SHA-256 in future...
       returnfield = ""      
       for drow in self.droidlist:
