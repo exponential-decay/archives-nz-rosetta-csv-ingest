@@ -4,8 +4,11 @@ from RosettaCSVGenerator import RosettaCSVGenerator
 class RosettaCSVGeneratorTests(TestCase):
 
    def setup(self):
-      self.rosettaCSVgen = RosettaCSVGenerator()
-   
+      self.rosettaCSVgen = RosettaCSVGenerator(False, False, False, False)
+
+   def test_normalize_spaces(self):
+         self.setup()
+
 def main():
 	suite = TestLoader().loadTestsFromTestCase(RosettaCSVGeneratorTests)
 	TextTestRunner(verbosity=2).run(suite)
