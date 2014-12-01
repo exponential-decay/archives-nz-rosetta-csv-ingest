@@ -58,7 +58,9 @@ class RosettaCSVGenerator:
       return columns
 
    def normalize_spaces(self, filename):
-   
+      if filename.find("  ") is not -1:
+         filename = filename.replace("  ", " ")
+         return self.normalize_spaces(filename)
       return filename
 
    #NOTE: itemtitle is title from Archway Export list...
