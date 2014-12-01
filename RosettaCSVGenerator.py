@@ -12,31 +12,24 @@ from ImportSheetGenerator import ImportSheetGenerator
 
 class RosettaCSVGenerator:
 
-   def __init__(self):
-      self.config = ConfigParser.RawConfigParser()
-      self.config.read('rosetta-csv-mapping.cfg')   # TODO: Consider purpose of init
-
-      self.droidcsv = False
-      self.exportcsv = False
-      self.rosettaschema = False
-
    def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False, configfile=False):
-      self.config = ConfigParser.RawConfigParser()
-      self.config.read(configfile)   
-      
-      self.droidcsv = droidcsv
-      self.exportsheet = exportsheet
-      
-      #NOTE: A bit of a hack, compare with import schema work and refactor
-      self.rosettaschema = rosettaschema
-      self.readRosettaSchema()
-      
-      #Grab Rosetta Sections
-      rs = RosettaCSVSections(configfile)
-      self.rosettasections = rs.sections
-      
-      #Get some functions from ImportGenerator
-      self.impgen = ImportSheetGenerator()
+      if configfile is not False:
+         self.config = ConfigParser.RawConfigParser()
+         self.config.read(configfile)   
+         
+         self.droidcsv = droidcsv
+         self.exportsheet = exportsheet
+         
+         #NOTE: A bit of a hack, compare with import schema work and refactor
+         self.rosettaschema = rosettaschema
+         self.readRosettaSchema()
+         
+         #Grab Rosetta Sections
+         rs = RosettaCSVSections(configfile)
+         self.rosettasections = rs.sections
+         
+         #Get some functions from ImportGenerator
+         self.impgen = ImportSheetGenerator()
 
    def add_csv_value(self, value):
       field = ''
