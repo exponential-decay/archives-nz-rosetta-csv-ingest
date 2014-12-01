@@ -7,7 +7,8 @@ class RosettaCSVGeneratorTests(TestCase):
       self.rosettaCSVgen = RosettaCSVGenerator(False, False, False, False)
 
    def test_normalize_spaces(self):
-         self.setup()
+      self.setup()
+      self.assertEqual(" ", self.rosettaCSVgen.normalize_spaces("  "))
 
 def main():
 	suite = TestLoader().loadTestsFromTestCase(RosettaCSVGeneratorTests)

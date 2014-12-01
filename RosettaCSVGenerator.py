@@ -57,6 +57,10 @@ class RosettaCSVGenerator:
          columns = columns + '"",'
       return columns
 
+   def normalize_spaces(self, filename):
+   
+      return filename
+
    #NOTE: itemtitle is title from Archway Export list...
    def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
    
