@@ -12,7 +12,8 @@ from ImportSheetGenerator import ImportSheetGenerator
 
 class RosettaCSVGenerator:
 
-   def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False, configfile=False):
+   def __init__(self, droidcsv=False, exportsheet=False, rosettaschema=False, configfile=False, provenance=False):
+   
       if configfile is not False:
          self.config = ConfigParser.RawConfigParser()
          self.config.read(configfile)   
