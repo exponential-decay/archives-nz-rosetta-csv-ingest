@@ -202,11 +202,11 @@ class RosettaCSVGenerator:
                            if field == 'Event Outcome Detail1':
                               sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])  
                            if field == 'File Original Path':
-                              if p['ORIGINALPATH'] != 'Ignore':
+                              if p['ORIGINALPATH'].lower().strip() != 'ignore':
                                  itemoriginalpath = True
                                  sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])  
                            if field == 'File fixity value':
-                              if p['CHECKSUM'] != 'Ignore':
+                              if p['CHECKSUM'].lower().strip() != 'ignore':
                                  itemfixity = True
                                  sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])  
                   
