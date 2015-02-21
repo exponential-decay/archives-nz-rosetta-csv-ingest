@@ -48,8 +48,8 @@ class ImportOverviewGenerator:
 
       sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folderlist[0] + '"' + '\n')
       
-      for folder in folderlist[1:]:
-         sys.stdout.write('"","","","' + folder + '"' + '\n') 
+      for folder in folderlist:
+         sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folder + '"' + '\n') 
       
    def readDROIDCSV(self):
       if self.droidcsv != False:
