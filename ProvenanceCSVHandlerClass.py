@@ -16,9 +16,7 @@ class provenanceCSVHandler:
          exportlist = None
       if exportlist is not None:
          for h in self.provheaders:
-            if h in exportlist[0]:
-               sys.stderr.write(str(h) + '\n')
-            else:
+            if h not in exportlist[0]:
                exportlist = None
                break
       return exportlist
