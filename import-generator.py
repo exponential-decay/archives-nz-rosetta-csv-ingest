@@ -34,7 +34,7 @@ def main():
    parser.add_argument('--exp', help='Archway export sheet to map to Rosetta ingest CSV', default=False, required=False)
    parser.add_argument('--ros', help='Rosetta CSV validation schema', default=False, required=False)
    parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=True)
-   parser.add_argument('--pro', help='Flag to enable use of prov.notes file.', default=False, required=False, action="store_true")
+   parser.add_argument('--pro','--prov', help='Flag to enable use of prov.notes file.', default=False, required=False, action="store_true")
 
    if len(sys.argv)==1:
       parser.print_help()

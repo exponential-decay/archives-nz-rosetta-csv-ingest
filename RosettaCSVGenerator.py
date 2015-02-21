@@ -6,6 +6,7 @@ import sys
 sys.path.append(r'JsonTableSchema/')
 import ConfigParser
 import JsonTableSchema
+from ProvenanceCSVHandlerClass import *
 from droidcsvhandlerclass import *
 from rosettacsvsectionsclass import RosettaCSVSections
 from ImportSheetGenerator import ImportSheetGenerator
@@ -28,6 +29,12 @@ class RosettaCSVGenerator:
          #Grab Rosetta Sections
          rs = RosettaCSVSections(configfile)
          self.rosettasections = rs.sections
+         
+         #set provenance flag and file
+         self.prov = False
+         if provenance is True:
+            self.prov = True
+            self.provfile = 'prov.notes'
          
       #Get some functions from ImportGenerator
       self.impgen = ImportSheetGenerator()
@@ -193,4 +200,9 @@ class RosettaCSVGenerator:
          self.droidlist = self.readDROIDCSV()
          self.exportlist = self.readExportCSV()
          #self.readRosettaSchema()  #NOTE: Moved to constructor... TODO: Refactor
+         
+         if self.prov is True:
+            provhandler = provenanceCSVHandler()
+            #sys.stderr.write(str(provhandler.readProvenanceCSV(self.provfile)))
+         
          self.createrosettacsv()
