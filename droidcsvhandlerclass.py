@@ -1,4 +1,5 @@
 ﻿import unicodecsv
+import os.path
 from urlparse import urlparse
 
 class genericCSVHandler():
@@ -13,20 +14,22 @@ class genericCSVHandler():
    # header: value, pair. 
    def csvaslist(self, csvfname):
       columncount = 0
-      csvlist = []
-      with open(csvfname, 'rb') as csvfile:
-         csvreader = unicodecsv.reader(csvfile)
-         for row in csvreader:
-            if csvreader.line_num == 1:		# not zero-based index
-               header_list = self.__getCSVheaders__(row)
-               columncount = len(header_list)
-            else:
-               csv_dict = {}
-               #for each column in header
-               #note: don't need ID data. Ignoring multiple ID.
-               for i in range(columncount):
-                  csv_dict[header_list[i]] = row[i]
-               csvlist.append(csv_dict)
+      csvlist = None
+      if os.path.isfile(csvfname): 
+         csvlist = []
+         with open(csvfname, 'rb') as csvfile:
+            csvreader = unicodecsv.reader(csvfile)
+            for row in csvreader:
+               if csvreader.line_num == 1:		# not zero-based index
+                  header_list = self.__getCSVheaders__(row)
+                  columncount = len(header_list)
+               else:
+                  csv_dict = {}
+                  #for each column in header
+                  #note: don't need ID data. Ignoring multiple ID.
+                  for i in range(columncount):
+                     csv_dict[header_list[i]] = row[i]
+                  csvlist.append(csv_dict)
       return csvlist
 
 class droidCSVHandler():
