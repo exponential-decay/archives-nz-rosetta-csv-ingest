@@ -20,7 +20,3 @@ class provenanceCSVHandler:
                exportlist = None
                break
       return exportlist
-      
-      
-test = provenanceCSVHandler()
-print test.readProvenanceCSV('prov.notes')

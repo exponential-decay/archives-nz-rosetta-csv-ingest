@@ -139,6 +139,7 @@ class RosettaCSVGenerator:
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
       
+      self.rnumber = 0
       fields = []
 
       for item in self.exportlist:
@@ -148,6 +149,11 @@ class RosettaCSVGenerator:
             sectionrow = ['""'] * len(self.rosettacsvdict)
             sectionrow[0] = self.add_csv_value(sections.keys()[0])            
             for field in sections[sections.keys()[0]]:
+
+               #store for record level handling like provenance
+               if field == 'Archway Identifier Value':
+                  self.rnumber = item['Item Code']            
+                  
                if field == self.rosettacsvdict[csvindex]['name']:
                   if self.config.has_option('rosetta mapping', field):
                      rosettafield = self.config.get('rosetta mapping', field)
@@ -170,12 +176,39 @@ class RosettaCSVGenerator:
      
                      #item[xxx] is the value from the export list
                      sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
+                  
+                  
+                  #provenance related code
+                  if self.prov == True:
+                     for p in self.provlist:
+                        if p['RECORDNUMBER'] == self.rnumber:
+                           
+                           if field == 'Event Identifier Type':
+                              sectionrow[csvindex] = self.add_csv_value("EXTERNAL")
+                           if field == 'Event Identifier Value':
+                              sectionrow[csvindex] = self.add_csv_value("EXT_1")  
+                           if field == 'Event Type':
+                              sectionrow[csvindex] = self.add_csv_value("CREATION")  
+                           if field == 'Event Description':
+                              sectionrow[csvindex] = self.add_csv_value("Provenance Note")  
+                           if field == 'Event Date':
+                              sectionrow[csvindex] = self.add_csv_value(p['NOTEDATE'])  
+                           if field == 'Event Outcome1':
+                              sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
+                           if field == 'Event Outcome Detail1':
+                              sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])  
+                     
+                  
+                  
                   else:
+                     print "hhh"
                      sectionrow[csvindex] = self.add_csv_value(field)
+                     
+                     
                else:
                   sys.exit(0)
                csvindex+=1
-               
+            
             itemrow.append(sectionrow)
          fields.append(itemrow)
          csvindex=CSVINDEXSTARTPOS
@@ -203,8 +236,8 @@ class RosettaCSVGenerator:
          
          if self.prov is True:
             provhandler = provenanceCSVHandler()
-            provlist = provhandler.readProvenanceCSV(self.provfile)
-            if provlist is None:
+            self.provlist = provhandler.readProvenanceCSV(self.provfile)
+            if self.provlist is None:
                self.prov = False
          
          self.createrosettacsv()
