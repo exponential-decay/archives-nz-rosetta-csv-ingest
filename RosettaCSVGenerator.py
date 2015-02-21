@@ -203,6 +203,8 @@ class RosettaCSVGenerator:
          
          if self.prov is True:
             provhandler = provenanceCSVHandler()
-            #sys.stderr.write(str(provhandler.readProvenanceCSV(self.provfile)))
+            provlist = provhandler.readProvenanceCSV(self.provfile)
+            if provlist is None:
+               self.prov = False
          
          self.createrosettacsv()
