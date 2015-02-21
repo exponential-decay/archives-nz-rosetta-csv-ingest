@@ -143,6 +143,10 @@ class RosettaCSVGenerator:
       fields = []
 
       for item in self.exportlist:
+      
+         itemfixity = False
+         itemoriginalpath = False
+      
          itemrow = []
          
          for sections in self.rosettasections:
@@ -197,11 +201,17 @@ class RosettaCSVGenerator:
                               sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
                            if field == 'Event Outcome Detail1':
                               sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])  
-                     
+                           if field == 'File Original Path':
+                              if p['ORIGINALPATH'] != 'Ignore':
+                                 itemoriginalpath = True
+                                 sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])  
+                           if field == 'File fixity value':
+                              if p['CHECKSUM'] != 'Ignore':
+                                 itemfixity = True
+                                 sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])  
                   
                   
                   else:
-                     print "hhh"
                      sectionrow[csvindex] = self.add_csv_value(field)
                      
                      
