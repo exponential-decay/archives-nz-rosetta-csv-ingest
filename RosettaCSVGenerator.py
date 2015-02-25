@@ -83,7 +83,7 @@ class RosettaCSVGenerator:
          comparison = True
       else:
          #Fail but don't exit desirable(?) so as to see all errors at once
-         sys.stderr.write(u"Filename comparison has failed. Check list control: " + listcontroltitle + " vs. DROID export: " + droid_filename_title + "\n")
+         sys.stderr.write("Filename comparison has failed. Check list control: " + listcontroltitle.encode('utf-8') + " vs. DROID export: " + droid_filename_title.encode('utf-8') + "\n")
       
       return comparison
 
