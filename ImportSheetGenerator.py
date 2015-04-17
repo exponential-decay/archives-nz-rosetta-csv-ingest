@@ -11,18 +11,9 @@ from droidcsvhandlerclass import *
 
 class ImportSheetGenerator:
 
-   def __init__(self):
+   def __init__(self, droidcsv=False, importschema=False, configfile=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read('import-value-mapping.cfg')   
-
-      self.droidcsv = False
-      self.importschema = False
-
-      self.pathmask = self.config.get('additional values', 'pathmask')
-
-   def __init__(self, droidcsv=False, importschema=False):
-      self.config = ConfigParser.RawConfigParser()
-      self.config.read('import-value-mapping.cfg')   
+      self.config.read(configfile)   
       
       self.droidcsv = droidcsv
       self.importschema = importschema

@@ -12,8 +12,8 @@ def createImportOverview(droidcsv):
    createoverview = ImportOverviewGenerator(droidcsv)
    createoverview.createOverviewSheet()
 
-def importsheetDROIDmapping(droidcsv, importschema):
-   importgenerator = ImportSheetGenerator(droidcsv, importschema)
+def importsheetDROIDmapping(droidcsv, importschema, configfile):
+   importgenerator = ImportSheetGenerator(droidcsv, importschema, configfile)
    importgenerator.droid2archwayimport()
 
 def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance):
@@ -46,8 +46,8 @@ def main():
    
    #TODO: Additional help text to describe two discrete sets of options
    
-   if args.csv and args.imp:
-      importsheetDROIDmapping(args.csv, args.imp)
+   if args.csv and args.imp and args.cfg:
+      importsheetDROIDmapping(args.csv, args.imp, args.cfg)
    elif args.csv and args.exp and args.ros and args.cfg:
       exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro)
    elif args.csv:
