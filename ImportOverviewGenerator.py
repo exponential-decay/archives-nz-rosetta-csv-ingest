@@ -43,7 +43,8 @@ class ImportOverviewGenerator:
       series = self.config.get('static values', 'Actual Series')
       accession = self.config.get('static values', 'Accession No.')
 
-      sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folderlist[0] + '"' + '\n')
+      #If we need to output agency and accession for just the first row... 
+      #sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folderlist[0] + '"' + '\n')
       
       for folder in folderlist:
          sys.stdout.write('"' + agency + '",' + '"' + accession + '",' + '"' + series + '",' + '"' + folder + '"' + '\n') 
