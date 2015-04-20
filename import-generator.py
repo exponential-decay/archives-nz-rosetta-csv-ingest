@@ -8,8 +8,8 @@ from RosettaCSVGenerator import RosettaCSVGenerator
 from ImportOverviewGenerator import ImportOverviewGenerator
 from ImportSheetGenerator import ImportSheetGenerator
          
-def createImportOverview(droidcsv):
-   createoverview = ImportOverviewGenerator(droidcsv)
+def createImportOverview(droidcsv, configfile):
+   createoverview = ImportOverviewGenerator(droidcsv, configfile)
    createoverview.createOverviewSheet()
 
 def importsheetDROIDmapping(droidcsv, importschema, configfile):
@@ -50,8 +50,8 @@ def main():
       importsheetDROIDmapping(args.csv, args.imp, args.cfg)
    elif args.csv and args.exp and args.ros and args.cfg:
       exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro)
-   elif args.csv:
-      createImportOverview(args.csv)
+   elif args.csv and args.cfg:
+      createImportOverview(args.csv, args.cfg)
    else:
       parser.print_help()
       sys.exit(1)

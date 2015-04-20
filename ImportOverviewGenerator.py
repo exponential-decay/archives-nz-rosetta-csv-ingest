@@ -7,16 +7,9 @@ from droidcsvhandlerclass import *
 
 class ImportOverviewGenerator:
 
-   def __init__(self):
+   def __init__(self, droidcsv=False, configfile=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read('import-value-mapping.cfg')   
-
-      self.droidcsv = False
-
-   def __init__(self, droidcsv=False):
-      self.config = ConfigParser.RawConfigParser()
-      self.config.read('import-value-mapping.cfg')   
-      
+      self.config.read(configfile)      
       self.droidcsv = droidcsv
 
    #TODO: Quick and dirty... rework so it's a little more refined
