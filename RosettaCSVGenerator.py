@@ -134,6 +134,34 @@ class RosettaCSVGenerator:
          csvrows = csvrows + rowdata
       sys.stdout.write(csvrows)
 
+   def dosomething(self, field, item, sectionrow, csvindex, rnumber):
+   
+      #case by case basis... not ideal...
+      if self.config.has_option('rosetta mapping', field):
+         rosettafield = self.config.get('rosetta mapping', field)
+         addvalue = item[rosettafield]
+         if field == 'Access':
+            if self.config.has_option('access values', addvalue):
+               addvalue = self.config.get('access values', addvalue)
+         sectionrow[csvindex] = self.add_csv_value(addvalue)                     
+      elif self.config.has_option('static values', field):
+         rosettafield = self.config.get('static values', field)
+         sectionrow[csvindex] = self.add_csv_value(rosettafield)
+      elif self.config.has_option('droid mapping', field):          
+         rosettafield = self.config.get('droid mapping', field)
+         
+         #get pathmask for location values...
+         #TODO: Only need to do this once somewhere... e.g. Constructor
+         pathmask = ""
+         if self.config.has_option('path values', 'pathmask'):
+            pathmask = self.config.get('path values', 'pathmask')
+
+         #item[xxx] is the value from the export list
+         sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
+                   
+      else:
+         sectionrow[csvindex] = self.add_csv_value(field)
+
    def createrosettacsv(self):
       
       CSVINDEXSTARTPOS = 2
@@ -149,74 +177,33 @@ class RosettaCSVGenerator:
       
          itemrow = []
          
+         #self.rosettasections, list of dictionaries generated from CFG file...
          for sections in self.rosettasections:
+            #sections, individual dictionaries from CFG file... 
+            
+            #section row is entire length of x-axis in spreadsheet from CSV JSON Config file...
             sectionrow = ['""'] * len(self.rosettacsvdict)
-            sectionrow[0] = self.add_csv_value(sections.keys()[0])            
+            
+            #Add key to the Y-axis of spreadsheet from dict...
+            sectionrow[0] = self.add_csv_value(sections.keys()[0])
+            
+            #driven by CFG file, not JSON, so field occurs in CFG file first...
+            #e.g. IE, REPRESENTATION, FILE, then each field in each of those...
             for field in sections[sections.keys()[0]]:
 
                #store for record level handling like provenance
                if field == 'Archway Identifier Value':
                   self.rnumber = item['Item Code']            
-                  
+               
+               #if we have a matching field in the cfg, and json, populate it... 
                if field == self.rosettacsvdict[csvindex]['name']:
-                  if self.config.has_option('rosetta mapping', field):
-                     rosettafield = self.config.get('rosetta mapping', field)
-                     addvalue = item[rosettafield]
-                     if field == 'Access':
-                        if self.config.has_option('access values', addvalue):
-                           addvalue = self.config.get('access values', addvalue)
-                     sectionrow[csvindex] = self.add_csv_value(addvalue)                     
-                  elif self.config.has_option('static values', field):
-                     rosettafield = self.config.get('static values', field)
-                     sectionrow[csvindex] = self.add_csv_value(rosettafield)
-                  elif self.config.has_option('droid mapping', field):          
-                     rosettafield = self.config.get('droid mapping', field)
-                     
-                     #get pathmask for location values...
-                     #TODO: Only need to do this once somewhere... e.g. Constructor
-                     pathmask = ""
-                     if self.config.has_option('path values', 'pathmask'):
-                        pathmask = self.config.get('path values', 'pathmask')
-     
-                     #item[xxx] is the value from the export list
-                     sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
-                  
-                  
-                  #provenance related code
-                  if self.prov == True:
-                     for p in self.provlist:
-                        if p['RECORDNUMBER'] == self.rnumber:
-                           
-                           if field == 'Event Identifier Type':
-                              sectionrow[csvindex] = self.add_csv_value("EXTERNAL")
-                           if field == 'Event Identifier Value':
-                              sectionrow[csvindex] = self.add_csv_value("EXT_1")  
-                           if field == 'Event Type':
-                              sectionrow[csvindex] = self.add_csv_value("CREATION")  
-                           if field == 'Event Description':
-                              sectionrow[csvindex] = self.add_csv_value("Provenance Note")  
-                           if field == 'Event Date':
-                              sectionrow[csvindex] = self.add_csv_value(p['NOTEDATE'])  
-                           if field == 'Event Outcome1':
-                              sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
-                           if field == 'Event Outcome Detail1':
-                              sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])  
-                           if field == 'File Original Path':
-                              if p['ORIGINALPATH'].lower().strip() != 'ignore':
-                                 itemoriginalpath = True
-                                 sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])  
-                           if field == 'File fixity value':
-                              if p['CHECKSUM'].lower().strip() != 'ignore':
-                                 itemfixity = True
-                                 sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])  
-                  
-                  
-                  else:
-                     sectionrow[csvindex] = self.add_csv_value(field)
-                     
-                     
+                  self.dosomething(field, item, sectionrow, csvindex, self.rnumber)
                else:
+                  #we have a misalignment between cfg and json...
+                  #TODO: Output a more useful error message? 
                   sys.exit(0)
+               
+               #increment csvindex along the x-axis...
                csvindex+=1
             
             itemrow.append(sectionrow)
