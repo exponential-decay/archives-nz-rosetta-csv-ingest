@@ -134,19 +134,41 @@ class RosettaCSVGenerator:
          csvrows = csvrows + rowdata
       sys.stdout.write(csvrows)
 
-   def dosomething(self, field, item, sectionrow, csvindex, rnumber):
+
+
+
+
+
+
+   def populaterows(self, field, listcontrolitem, sectionrow, csvindex, rnumber):
    
-      #case by case basis... not ideal...
-      if self.config.has_option('rosetta mapping', field):
-         rosettafield = self.config.get('rosetta mapping', field)
-         addvalue = item[rosettafield]
-         if field == 'Access':
-            if self.config.has_option('access values', addvalue):
-               addvalue = self.config.get('access values', addvalue)
-         sectionrow[csvindex] = self.add_csv_value(addvalue)                     
-      elif self.config.has_option('static values', field):
+      #default population of csv cells...
+      if not self.config.has_option('rosetta mapping', field):
+         sectionrow[csvindex] = self.add_csv_value(field)
+
+      #populate cell with static values from config file
+      if self.config.has_option('static values', field):
          rosettafield = self.config.get('static values', field)
          sectionrow[csvindex] = self.add_csv_value(rosettafield)
+      
+      #if there is a mapping configured to the list control, grab the value
+      if self.config.has_option('rosetta mapping', field):
+         rosettafield = self.config.get('rosetta mapping', field)
+         addvalue = listcontrolitem[rosettafield]
+         
+         #****MULTIPLE ACCESS RESTRICTIONS****#
+         #If the field we've got in the config file is Access, we need to
+         #Then grab the Rosetta access code for the correct restriction status
+         #Following a trail somewhat, but enables more flexible access restrictions in 
+         if field == 'Access':
+            if self.config.has_option('access values', addvalue):
+               #addvalue becomes the specific code given to a specific restriction status...
+               addvalue = self.config.get('access values', addvalue)
+
+         #place value into the cell within the row...
+         sectionrow[csvindex] = self.add_csv_value(addvalue)
+         
+      #if there is a mapping to a value in the droid export...
       elif self.config.has_option('droid mapping', field):          
          rosettafield = self.config.get('droid mapping', field)
          
@@ -157,10 +179,7 @@ class RosettaCSVGenerator:
             pathmask = self.config.get('path values', 'pathmask')
 
          #item[xxx] is the value from the export list
-         sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(item['Missing Comment'], item['Title'], field, rosettafield, pathmask))
-                   
-      else:
-         sectionrow[csvindex] = self.add_csv_value(field)
+         sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
 
    def createrosettacsv(self):
       
@@ -197,7 +216,7 @@ class RosettaCSVGenerator:
                
                #if we have a matching field in the cfg, and json, populate it... 
                if field == self.rosettacsvdict[csvindex]['name']:
-                  self.dosomething(field, item, sectionrow, csvindex, self.rnumber)
+                  self.populaterows(field, item, sectionrow, csvindex, self.rnumber)
                else:
                   #we have a misalignment between cfg and json...
                   #TODO: Output a more useful error message? 
