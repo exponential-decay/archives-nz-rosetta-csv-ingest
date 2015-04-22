@@ -9,7 +9,8 @@ class ImportOverviewGenerator:
 
    def __init__(self, droidcsv=False, configfile=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read(configfile)      
+      if configfile is not False:
+         self.config.read(configfile)      
       self.droidcsv = droidcsv
 
    #TODO: Quick and dirty... rework so it's a little more refined

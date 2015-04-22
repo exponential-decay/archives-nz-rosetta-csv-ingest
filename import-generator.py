@@ -15,7 +15,7 @@ def createImportOverview(droidcsv, configfile):
 def importsheetDROIDmapping(droidcsv, importschema, configfile):
    importgenerator = ImportSheetGenerator(droidcsv, importschema, configfile)
    importgenerator.droid2archwayimport()
-
+   
 def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance):
    csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
    csvgen.export2rosettacsv()

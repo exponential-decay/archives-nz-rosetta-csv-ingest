@@ -13,13 +13,14 @@ class ImportSheetGenerator:
 
    def __init__(self, droidcsv=False, importschema=False, configfile=False):
       self.config = ConfigParser.RawConfigParser()
-      self.config.read(configfile)   
       
+      if configfile is not False:
+         self.config.read(configfile)   
+         self.pathmask = self.config.get('additional values', 'pathmask')
+         
       self.droidcsv = droidcsv
       self.importschema = importschema
       
-      self.pathmask = self.config.get('additional values', 'pathmask')
-
    def retrieve_year_from_modified_date(self, MODIFIED_DATE):
       year = ""
       if MODIFIED_DATE != '':
