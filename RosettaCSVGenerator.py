@@ -159,6 +159,7 @@ class RosettaCSVGenerator:
          if self.prov == True:
             for p in self.provlist:
                if p['RECORDNUMBER'] == rnumber:
+                  #These values overwrite the defaults from DROID list
                   if field == 'File fixity value':
                      if p['CHECKSUM'].lower().strip() != 'ignore':
                         ignorefield=True
@@ -183,6 +184,7 @@ class RosettaCSVGenerator:
          if self.prov == True:
             for p in self.provlist:
                if p['RECORDNUMBER'] == rnumber:
+                  #These values overwrite the defaults from DROID list
                   if field == 'File Original Path':
                      if p['ORIGINALPATH'].lower().strip() != 'ignore':
                         ignorefield=True
@@ -210,20 +212,7 @@ class RosettaCSVGenerator:
                   sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
                if field == 'Event Outcome Detail1':
                   sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])
-
-               #These values overwrite the defaults from DROID list
-               #Exceptions above for when mapping from DROID...
-               if field == 'File Original Path':
-                  if p['ORIGINALPATH'].lower().strip() != 'ignore':
-                     itemoriginalpath = True
-                     sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])  
-               if field == 'File fixity value':
-                  if p['CHECKSUM'].lower().strip() != 'ignore':
-                     itemfixity = True
-                     sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])
-         
-
-         
+  
    def createrosettacsv(self):
       
       CSVINDEXSTARTPOS = 2
