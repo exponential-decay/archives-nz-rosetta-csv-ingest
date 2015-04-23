@@ -1,5 +1,6 @@
 import unicodecsv
 import sys
+from os.path import exists
 
 from droidcsvhandlerclass import *
 
@@ -9,14 +10,16 @@ class provenanceCSVHandler:
    provheaders = ['RECORDNUMBER','NOTEDATE','NOTETEXT']
 
    def readProvenanceCSV(self, provcsvname):
-      csvhandler = genericCSVHandler()
-      exportlist = csvhandler.csvaslist(provcsvname)
-      #counter a blank sheet
-      if len(exportlist) < 1:
-         exportlist = None
-      if exportlist is not None:
-         for h in self.provheaders:
-            if h not in exportlist[0]:
-               exportlist = None
-               break
+      exportlist=None
+      if exists(provcsvname):
+         csvhandler = genericCSVHandler()
+         exportlist = csvhandler.csvaslist(provcsvname)
+         #counter a blank sheet
+         if len(exportlist) < 1:
+            exportlist = None
+         if exportlist is not None:
+            for h in self.provheaders:
+               if h not in exportlist[0]:
+                  exportlist = None
+                  break
       return exportlist

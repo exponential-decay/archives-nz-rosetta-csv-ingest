@@ -35,6 +35,9 @@ class RosettaCSVGenerator:
          if provenance is True:
             self.prov = True
             self.provfile = 'prov.notes'
+            if self.config.has_option('provenance', 'file'):
+               #Overwrite default, if manually specified...
+               self.provfile = self.config.get('provenance', 'file')
          
       #Get some functions from ImportGenerator
       self.impgen = ImportSheetGenerator()
