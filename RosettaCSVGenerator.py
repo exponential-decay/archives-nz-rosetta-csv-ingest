@@ -137,6 +137,20 @@ class RosettaCSVGenerator:
          csvrows = csvrows + rowdata
       sys.stdout.write(csvrows)
 
+   def handleprovenanceexceptions(self, PROVENANCE_FIELD, sectionrow, field, csvindex, rnumber):
+      ignorefield = False
+      if self.prov == True:
+         for p in self.provlist:
+            if p['RECORDNUMBER'] == rnumber:
+               #These values overwrite the defaults from DROID list...
+               #Double-check comparison to ensure we're inputting the right values...
+               if (PROVENANCE_FIELD == 'CHECKSUM' and field == 'File fixity value') or \
+                  (PROVENANCE_FIELD == 'ORIGINALPATH' and field == 'File Original Path'):
+                  if p[PROVENANCE_FIELD].lower().strip() != 'ignore':
+                     ignorefield=True
+                     sectionrow[csvindex] = self.add_csv_value(p[PROVENANCE_FIELD])
+      return ignorefield
+
    def populaterows(self, field, listcontrolitem, sectionrow, csvindex, rnumber):
    
       #populate cell with static values from config file
@@ -158,15 +172,7 @@ class RosettaCSVGenerator:
                #addvalue becomes the specific code given to a specific restriction status...
                addvalue = self.config.get('access values', addvalue)
 
-         ignorefield = False
-         if self.prov == True:
-            for p in self.provlist:
-               if p['RECORDNUMBER'] == rnumber:
-                  #These values overwrite the defaults from DROID list
-                  if field == 'File fixity value':
-                     if p['CHECKSUM'].lower().strip() != 'ignore':
-                        ignorefield=True
-                        sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])
+         ignorefield = self.handleprovenanceexceptions('CHECKSUM', sectionrow, field, csvindex, rnumber)
 
          #place value into the cell within the row...
          if ignorefield == False:
@@ -182,17 +188,7 @@ class RosettaCSVGenerator:
          if self.config.has_option('path values', 'pathmask'):
             pathmask = self.config.get('path values', 'pathmask')
          
-         ignorefield = False
-         provvalue = ''
-         if self.prov == True:
-            for p in self.provlist:
-               if p['RECORDNUMBER'] == rnumber:
-                  #These values overwrite the defaults from DROID list
-                  if field == 'File Original Path':
-                     if p['ORIGINALPATH'].lower().strip() != 'ignore':
-                        ignorefield=True
-                        sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])
-                        
+         ignorefield = self.handleprovenanceexceptions('ORIGINALPATH', sectionrow, field, csvindex, rnumber)
                         
          if ignorefield == False:
             sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
