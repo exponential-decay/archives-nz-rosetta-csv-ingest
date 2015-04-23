@@ -134,23 +134,13 @@ class RosettaCSVGenerator:
          csvrows = csvrows + rowdata
       sys.stdout.write(csvrows)
 
-
-
-
-
-
-
    def populaterows(self, field, listcontrolitem, sectionrow, csvindex, rnumber):
    
-      #default population of csv cells...
-      if not self.config.has_option('rosetta mapping', field):
-         sectionrow[csvindex] = self.add_csv_value(field)
-
       #populate cell with static values from config file
       if self.config.has_option('static values', field):
          rosettafield = self.config.get('static values', field)
          sectionrow[csvindex] = self.add_csv_value(rosettafield)
-      
+
       #if there is a mapping configured to the list control, grab the value
       if self.config.has_option('rosetta mapping', field):
          rosettafield = self.config.get('rosetta mapping', field)
@@ -165,8 +155,18 @@ class RosettaCSVGenerator:
                #addvalue becomes the specific code given to a specific restriction status...
                addvalue = self.config.get('access values', addvalue)
 
+         ignorefield = False
+         if self.prov == True:
+            for p in self.provlist:
+               if p['RECORDNUMBER'] == rnumber:
+                  if field == 'File fixity value':
+                     if p['CHECKSUM'].lower().strip() != 'ignore':
+                        ignorefield=True
+                        sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])
+
          #place value into the cell within the row...
-         sectionrow[csvindex] = self.add_csv_value(addvalue)
+         if ignorefield == False:
+            sectionrow[csvindex] = self.add_csv_value(addvalue)
          
       #if there is a mapping to a value in the droid export...
       elif self.config.has_option('droid mapping', field):          
@@ -177,10 +177,53 @@ class RosettaCSVGenerator:
          pathmask = ""
          if self.config.has_option('path values', 'pathmask'):
             pathmask = self.config.get('path values', 'pathmask')
+         
+         ignorefield = False
+         provvalue = ''
+         if self.prov == True:
+            for p in self.provlist:
+               if p['RECORDNUMBER'] == rnumber:
+                  if field == 'File Original Path':
+                     if p['ORIGINALPATH'].lower().strip() != 'ignore':
+                        ignorefield=True
+                        sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])
+                        
+                        
+         if ignorefield == False:
+            sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
 
-         #item[xxx] is the value from the export list
-         sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
+      elif self.prov == True:
 
+         for p in self.provlist:
+            if p['RECORDNUMBER'] == rnumber:
+               if field == 'Event Identifier Type':
+                  sectionrow[csvindex] = self.add_csv_value("EXTERNAL")
+               if field == 'Event Identifier Value':
+                  sectionrow[csvindex] = self.add_csv_value("EXT_1")  
+               if field == 'Event Type':
+                  sectionrow[csvindex] = self.add_csv_value("CREATION")  
+               if field == 'Event Description':
+                  sectionrow[csvindex] = self.add_csv_value("Provenance Note")  
+               if field == 'Event Date':
+                  sectionrow[csvindex] = self.add_csv_value(p['NOTEDATE'])  
+               if field == 'Event Outcome1':
+                  sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
+               if field == 'Event Outcome Detail1':
+                  sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])
+
+               #These values overwrite the defaults from DROID list
+               #Exceptions above for when mapping from DROID...
+               if field == 'File Original Path':
+                  if p['ORIGINALPATH'].lower().strip() != 'ignore':
+                     itemoriginalpath = True
+                     sectionrow[csvindex] = self.add_csv_value(p['ORIGINALPATH'])  
+               if field == 'File fixity value':
+                  if p['CHECKSUM'].lower().strip() != 'ignore':
+                     itemfixity = True
+                     sectionrow[csvindex] = self.add_csv_value(p['CHECKSUM'])
+         
+
+         
    def createrosettacsv(self):
       
       CSVINDEXSTARTPOS = 2
