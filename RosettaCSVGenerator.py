@@ -194,7 +194,6 @@ class RosettaCSVGenerator:
             sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
 
       elif self.prov == True:
-
          for p in self.provlist:
             if p['RECORDNUMBER'] == rnumber:
                if field == 'Event Identifier Type':
