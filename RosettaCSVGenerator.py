@@ -197,37 +197,10 @@ class RosettaCSVGenerator:
          
       #if there is a mapping to a value in the droid export...
       elif self.config.has_option('droid mapping', field):          
-         rosettafield = self.config.get('droid mapping', field)
-         
-         #get pathmask for location values...
-         pathmask = self.pathmask
-         
-         
-         #if self.duplicates:
-         
-         
-         
-         
-         #if duplicates exist we need to do a series comparison to add files...
-         #subseriespathmask = ""
-         #if self.config.has_option('path values', 'subseriespathmask'):
-         #   pathmask = self.config.get('path values', 'subseriespathmask')
-         #else:
-         #   sys.exit("Cannot generate ingest sheet without subseries comparison")
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
+         rosettafield = self.config.get('droid mapping', field)         
          ignorefield = self.handleprovenanceexceptions('ORIGINALPATH', sectionrow, field, csvindex, rnumber)
-                        
          if ignorefield == False:
-            sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], listcontrolitem['Sub-Series'], field, rosettafield, pathmask))
+            sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], listcontrolitem['Sub-Series'], field, rosettafield, self.pathmask))
 
       elif self.prov == True:
          for p in self.provlist:
@@ -248,6 +221,18 @@ class RosettaCSVGenerator:
                   sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])
   
    def createrosettacsv(self):
+            
+      #if self.duplicates:
+         
+      
+      
+      
+      #if duplicates exist we need to do a series comparison to add files...
+      #subseriespathmask = ""
+      #if self.config.has_option('path values', 'subseriespathmask'):
+      #   pathmask = self.config.get('path values', 'subseriespathmask')
+      #else:
+      #   sys.exit("Cannot generate ingest sheet without subseries comparison")
       
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
