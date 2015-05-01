@@ -45,6 +45,9 @@ class RosettaCSVGenerator:
          
       #Get some functions from ImportGenerator
       self.impgen = ImportSheetGenerator()
+      
+      #List duplicate items to check...
+      self.duplicateitemsaddedset = set()
 
    def add_csv_value(self, value):
       field = ''
@@ -97,24 +100,37 @@ class RosettaCSVGenerator:
    #NOTE: itemtitle is title from Archway List Control...
    def grabdroidvalue(self, md5, itemtitle, subseries, field, rosettafield, pathmask):
    
-      #print subseries
-   
       #TODO: Potentially index droidlist by MD5 or SHA-256 in future...
       returnfield = ""      
       for drow in self.droidlist:
+         addtorow = False
          
-         #print subseries
-         #print os.path.dirname(drow['FILE_PATH']).replace(pathmask, '').rsplit(subseries, 0)
-      
-         if drow['MD5_HASH'] == md5:
+         checksumfromdroid = drow['MD5_HASH']
+         
+         if checksumfromdroid == md5:
             if self.compare_filenames_as_titles(drow, itemtitle):
-               droidfield = drow[rosettafield]
-               if field == 'File Location':
-                  returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
-               if field == 'File Original Path':
-                  returnfield = droidfield.replace(pathmask, '').replace('\\','/')
-               if field == 'File Name':
-                  returnfield = droidfield
+               
+               #Performance, only do more work, if we have to care about it...
+               if checksumfromdroid in self.duplicates:
+               
+                  #recreate subseries so that we can do comparison for path alignment... 
+                  subseriesfromdroid = os.path.dirname(drow['FILE_PATH']).replace(self.subseriesmask, '')
+               
+                  if subseries == subseriesfromdroid:
+                     addtorow = True
+                     self.duplicateitemsaddedset.add(subseries + "\\" + itemtitle + " checksum: " + checksumfromdroid)
+               else:
+                  addtorow = True
+                 
+         if addtorow == True:
+            droidfield = drow[rosettafield]
+            if field == 'File Location':
+               returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
+            if field == 'File Original Path':
+               returnfield = droidfield.replace(pathmask, '').replace('\\','/')
+            if field == 'File Name':
+               returnfield = droidfield
+               
       return returnfield
      
    def csvstringoutput(self, csvlist):
@@ -146,7 +162,10 @@ class RosettaCSVGenerator:
                rowdata = rowdata + fielddata + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
-      #sys.stdout.write(csvrows)
+      sys.stdout.write(csvrows)
+      
+      for dupe in self.duplicateitemsaddedset:
+         sys.stderr.write("Duplicates to monitor: " + dupe + "\n")
 
    def handleprovenanceexceptions(self, PROVENANCE_FIELD, sectionrow, field, csvindex, rnumber):
       ignorefield = False
