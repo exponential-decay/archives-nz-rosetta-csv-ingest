@@ -40,6 +40,8 @@ class RosettaCSVGenerator:
                self.provfile = self.config.get('provenance', 'file')
           
          self.pathmask = self.__setpathmask__()
+      else:
+         sys.exit('No config file')
          
       #Get some functions from ImportGenerator
       self.impgen = ImportSheetGenerator()
@@ -201,7 +203,7 @@ class RosettaCSVGenerator:
          pathmask = self.pathmask
          
          
-         
+         #if self.duplicates:
          
          
          
@@ -295,6 +297,18 @@ class RosettaCSVGenerator:
       
       self.csvstringoutput(fields)
 
+   #TODO: unit tests for this...
+   def listduplicates(self):
+      seen = []
+      dupe = []
+      for row in self.droidlist:
+         cs = row['MD5_HASH']
+         if cs not in seen:
+            seen.append(cs)
+         else:
+            dupe.append(cs)
+      return set(dupe)
+
    def readExportCSV(self):
       if self.exportsheet != False:
          csvhandler = genericCSVHandler()
@@ -320,4 +334,5 @@ class RosettaCSVGenerator:
             if self.provlist is None:
                self.prov = False
          
+         self.duplicates = self.listduplicates()
          self.createrosettacsv()
