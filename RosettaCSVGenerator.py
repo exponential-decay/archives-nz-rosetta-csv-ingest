@@ -146,7 +146,7 @@ class RosettaCSVGenerator:
                rowdata = rowdata + fielddata + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
-      sys.stdout.write(csvrows)
+      #sys.stdout.write(csvrows)
 
    def handleprovenanceexceptions(self, PROVENANCE_FIELD, sectionrow, field, csvindex, rnumber):
       ignorefield = False
@@ -221,19 +221,14 @@ class RosettaCSVGenerator:
                   sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])
   
    def createrosettacsv(self):
+      
+      self.subseriesmask = ''
+      if self.duplicates:
+         if self.config.has_option('path values', 'subseriesmask'):
+            self.subseriesmask = self.config.get('path values', 'subseriesmask')
+         else:
+            sys.stderr.write("We have duplicate checksums, ensure they don't align with duplicate filenames")  
             
-      #if self.duplicates:
-         
-      
-      
-      
-      #if duplicates exist we need to do a series comparison to add files...
-      #subseriespathmask = ""
-      #if self.config.has_option('path values', 'subseriespathmask'):
-      #   pathmask = self.config.get('path values', 'subseriespathmask')
-      #else:
-      #   sys.exit("Cannot generate ingest sheet without subseries comparison")
-      
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
       
