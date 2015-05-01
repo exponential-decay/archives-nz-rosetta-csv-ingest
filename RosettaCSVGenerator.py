@@ -38,6 +38,8 @@ class RosettaCSVGenerator:
             if self.config.has_option('provenance', 'file'):
                #Overwrite default, if manually specified...
                self.provfile = self.config.get('provenance', 'file')
+          
+         self.pathmask = self.__setpathmask__()
          
       #Get some functions from ImportGenerator
       self.impgen = ImportSheetGenerator()
@@ -91,10 +93,17 @@ class RosettaCSVGenerator:
       return comparison
 
    #NOTE: itemtitle is title from Archway List Control...
-   def grabdroidvalue(self, md5, itemtitle, field, rosettafield, pathmask):
+   def grabdroidvalue(self, md5, itemtitle, subseries, field, rosettafield, pathmask):
+   
+      #print subseries
+   
       #TODO: Potentially index droidlist by MD5 or SHA-256 in future...
       returnfield = ""      
       for drow in self.droidlist:
+         
+         #print subseries
+         #print os.path.dirname(drow['FILE_PATH']).replace(pathmask, '').rsplit(subseries, 0)
+      
          if drow['MD5_HASH'] == md5:
             if self.compare_filenames_as_titles(drow, itemtitle):
                droidfield = drow[rosettafield]
@@ -151,6 +160,12 @@ class RosettaCSVGenerator:
                      sectionrow[csvindex] = self.add_csv_value(p[PROVENANCE_FIELD])
       return ignorefield
 
+   def __setpathmask__(self):
+      pathmask = ''
+      if self.config.has_option('path values', 'pathmask'):
+         pathmask = self.config.get('path values', 'pathmask')
+      return pathmask
+
    def populaterows(self, field, listcontrolitem, sectionrow, csvindex, rnumber):
    
       #populate cell with static values from config file
@@ -183,15 +198,34 @@ class RosettaCSVGenerator:
          rosettafield = self.config.get('droid mapping', field)
          
          #get pathmask for location values...
-         #TODO: Only need to do this once somewhere... e.g. Constructor
-         pathmask = ""
-         if self.config.has_option('path values', 'pathmask'):
-            pathmask = self.config.get('path values', 'pathmask')
+         pathmask = self.pathmask
+         
+         
+         
+         
+         
+         
+         
+         #if duplicates exist we need to do a series comparison to add files...
+         #subseriespathmask = ""
+         #if self.config.has_option('path values', 'subseriespathmask'):
+         #   pathmask = self.config.get('path values', 'subseriespathmask')
+         #else:
+         #   sys.exit("Cannot generate ingest sheet without subseries comparison")
+         
+         
+         
+         
+         
+         
+         
+         
+         
          
          ignorefield = self.handleprovenanceexceptions('ORIGINALPATH', sectionrow, field, csvindex, rnumber)
                         
          if ignorefield == False:
-            sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], field, rosettafield, pathmask))
+            sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], listcontrolitem['Sub-Series'], field, rosettafield, pathmask))
 
       elif self.prov == True:
          for p in self.provlist:
@@ -203,11 +237,11 @@ class RosettaCSVGenerator:
                if field == 'Event Type':
                   sectionrow[csvindex] = self.add_csv_value("CREATION")  
                if field == 'Event Description':
-                  sectionrow[csvindex] = self.add_csv_value("Provenance Note")  
+                  sectionrow[csvindex] = self.add_csv_value("Provenance Note")
                if field == 'Event Date':
                   sectionrow[csvindex] = self.add_csv_value(p['NOTEDATE'])  
                if field == 'Event Outcome1':
-                  sectionrow[csvindex] = self.add_csv_value("SUCCESS")                          
+                  sectionrow[csvindex] = self.add_csv_value("SUCCESS")
                if field == 'Event Outcome Detail1':
                   sectionrow[csvindex] = self.add_csv_value(p['NOTETEXT'])
   
