@@ -126,14 +126,14 @@ class RosettaCSVGenerator:
             droidfield = drow[rosettafield]
             if field == 'File Location':
                returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
-            if field == 'File Original Path':
+            elif field == 'File Original Path':
                returnfield = droidfield.replace(pathmask, '').replace('\\','/')
-            if field == 'File Name':
+            else:
                returnfield = droidfield
                
       return returnfield
      
-   def csvstringoutput(self, csvlist):
+   def csvstringoutput(self, csvlist):   
       #String output...
       csvrows = self.rosettacsvheader
 
