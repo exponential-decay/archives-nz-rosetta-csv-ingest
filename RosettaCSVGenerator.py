@@ -52,9 +52,9 @@ class RosettaCSVGenerator:
    def add_csv_value(self, value):
       field = ''
       if type(value) is int:              #TODO: probably a better way to do this (type-agnostic)
-         field = '"' + str(value) + '"'
+         field = '"' + str(value).rstrip() + '"'
       else:
-         field = '"' + value.encode('utf-8') + '"'
+         field = '"' + value.encode('utf-8').rstrip() + '"'
       return field
 
    def readRosettaSchema(self):
