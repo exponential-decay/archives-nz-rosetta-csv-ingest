@@ -4,6 +4,7 @@
 import os
 import sys
 import argparse
+import ConfigParser
 from RosettaCSVGenerator import RosettaCSVGenerator
 from ImportOverviewGenerator import ImportOverviewGenerator
 from ImportSheetGenerator import ImportSheetGenerator
@@ -33,8 +34,9 @@ def main():
    parser.add_argument('--imp', help='Archway import schema to use.', default=False, required=False)
    parser.add_argument('--exp', help='Archway export sheet to map to Rosetta ingest CSV', default=False, required=False)
    parser.add_argument('--ros', help='Rosetta CSV validation schema', default=False, required=False)
-   parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=True)
+   parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=False)
    parser.add_argument('--pro','--prov', help='Flag to enable use of prov.notes file.', default=False, required=False, action="store_true")
+   parser.add_argument('--args','--arg', help='Concatenate arguments into a file for ease of use.', default=False, required=False)
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -45,6 +47,28 @@ def main():
    args = parser.parse_args()
    
    #TODO: Additional help text to describe two discrete sets of options
+   if args.args:
+      config = ConfigParser.RawConfigParser()
+      config.read(args.args)   
+      if config.has_option('arguments', 'title'):
+         sys.stderr.write("Using " + config.get('arguments', 'title') + " args configuration file.")
+      else:
+         sys.stderr.write("Using an arguments configuration file.")
+
+      if config.has_option('arguments', 'droidexport'):
+         args.csv = config.get('arguments', 'droidexport')
+         args.ros = config.get('arguments', 'schemafile')
+         args.cfg = config.get('arguments', 'configfile')
+         if config.get('arguments', 'ingest').lower() == "true":    #we need a list control for ingest
+            args.exp = config.get('arguments', 'listcontrol')
+         else:
+            args.exp = False
+   
+      #special option for creating an import cover sheet
+      if config.has_option('arguments', 'coversheet'):
+         if config.get('arguments', 'configfile').lower() == 'true':
+            args.ros = False
+            args.exp = False
    
    if args.csv and args.imp and args.cfg:
       importsheetDROIDmapping(args.csv, args.imp, args.cfg)
