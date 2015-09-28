@@ -246,7 +246,8 @@ class RosettaCSVGenerator:
          if self.config.has_option('path values', 'subseriesmask'):
             self.subseriesmask = self.config.get('path values', 'subseriesmask')
          else:
-            sys.stderr.write("We have duplicate checksums, ensure they don't align with duplicate filenames")  
+            sys.stderr.write("We have duplicate checksums, ensure they don't align with duplicate filenames")
+            sys.stderr.write("Warning: '[path values] subseriesmask' not set in configuration.")
             
       CSVINDEXSTARTPOS = 2
       csvindex = CSVINDEXSTARTPOS
@@ -285,7 +286,7 @@ class RosettaCSVGenerator:
                else:
                   #we have a misalignment between cfg and json...
                   #TODO: Output a more useful error message? 
-                  sys.exit(0)
+                  sys.exit("CSV configuration and schema file do not match. Look for missing fields in either.")
                
                #increment csvindex along the x-axis...
                csvindex+=1
