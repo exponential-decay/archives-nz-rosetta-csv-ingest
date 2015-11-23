@@ -18,14 +18,14 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="objectIdentifier">
               <record>
-                <key id="objectIdentifierType">{{ dnx.rosetta.idtype }}</key>
-                <key id="objectIdentifierValue">{{ dnx.rosetta.idvalue }}</key>
+                <key id="objectIdentifierType">{{ dnx.ie.idtype }}</key>
+                <key id="objectIdentifierValue">{{ dnx.ie.idvalue }}</key>
               </record>
             </section>
             <section id="generalIECharacteristics">
               <record>
-                <key id="IEEntityType">{{ dnx.rosetta.entitytype }}</key>
-                <key id="submissionReason">{{ dnx.rosetta.submissionreason }}</key>
+                <key id="IEEntityType">{{ dnx.ie.entitytype }}</key>
+                <key id="submissionReason">{{ dnx.ie.submissionreason }}</key>
               </record>
             </section>
           </dnx>
@@ -38,7 +38,7 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="accessRightsPolicy">
               <record>
-                <key id="policyId">{{ dnx.rosetta.policyid }}</key>
+                <key id="policyId">{{ dnx.ie.policyid }}</key>
               </record>
             </section>
           </dnx>
