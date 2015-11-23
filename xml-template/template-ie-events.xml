@@ -1,0 +1,205 @@
+<mets:mets xmlns:mets="http://www.loc.gov/METS/">
+  <mets:dmdSec ID="ie-dmd">
+    <mets:mdWrap MDTYPE="DC">
+      <mets:xmlData>
+        <dc:record xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mods="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd">
+          <dc:title>newpeter</dc:title>
+          <dc:identifier xsi:type="archwayUniqueId">R24684315</dc:identifier>
+          <dcterms:isPartOf>7505</dcterms:isPartOf>
+          <dcterms:provenance>AANH</dcterms:provenance>
+        </dc:record>
+      </mets:xmlData>
+    </mets:mdWrap>
+  </mets:dmdSec>
+  <mets:amdSec ID="ie-amd">
+    <mets:techMD ID="ie-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="objectIdentifier">
+              <record>
+                <key id="objectIdentifierType">ArchwayUniqueID</key>
+                <key id="objectIdentifierValue">R24684315</key>
+              </record>
+            </section>
+            <section id="generalIECharacteristics">
+              <record>
+                <key id="IEEntityType">ANZ_BornDigital</key>
+                <key id="submissionReason">DigitalTransfer</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="ie-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="accessRightsPolicy">
+              <record>
+                <key id="policyId">1004</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="ie-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="ie-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="event">
+              <record>
+                <key id="eventIdentifierType">EXTERNAL</key>
+                <key id="eventIdentifierValue">EXT_1</key>
+                <key id="eventType">CREATION</key>
+                <key id="eventDescription">Provenance Note</key>
+                <key id="eventDateTime">2014-12-02T23:15:00</key>
+                <key id="eventOutcome1">SUCCESS</key>
+                <key id="eventOutcomeDetail1">PRECONDITIONING BYTESTREAM 001-Bytes Swapped. JFIF application segment (18 bytes, beginning 0xFFE0) moved directly in front of Photoshop IRB segment (beginning 0xFFDB) and directly after the start of image marker (0xFFD8). MD5 (Original): 02a1b0254fe08cf07e03dde6819a63a9 becomes MD5 (pre-conditioned): 7f0b14e62afb8a02fe101faee39a324c. Modified Date (original) 10 March 2004 becomes modified date (pre-conditioned): 02 December 2014</key>
+              </record>
+            </section>
+            <section id="producer">
+              <record>
+                <key id="userName"/>
+                <key id="address1">10 Mulgrave Street</key>
+                <key id="address2"/>
+                <key id="address3">Wellington</key>
+                <key id="address4">NewZealand</key>
+                <key id="address5"/>
+                <key id="defaultLanguage">en</key>
+                <key id="emailAddress">GDA.admin@dia.govt.nz</key>
+                <key id="firstName">Archives New Zealand</key>
+                <key id="jobTitle"/>
+                <key id="lastName">Government Digital Archive</key>
+                <key id="middleName"/>
+                <key id="telephone1">4995595</key>
+                <key id="telephone2"/>
+                <key id="authorativeName">ANZCSV</key>
+                <key id="producerId">10232942</key>
+                <key id="userIdAppId">10232941</key>
+                <key id="webSiteUrl"/>
+                <key id="zip"/>
+              </record>
+            </section>
+            <section id="producerAgent">
+              <record>
+                <key id="firstName">Ross</key>
+                <key id="lastName">Spencer</key>
+                <key id="middleName"/>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="rep1-amd">
+    <mets:techMD ID="rep1-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="generalRepCharacteristics">
+              <record>
+                <key id="preservationType">PRESERVATION_MASTER</key>
+                <key id="usageType">VIEW</key>
+                <key id="RevisionNumber">1</key>
+                <key id="DigitalOriginal">TRUE</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="rep1-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="rep1-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="rep1-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:amdSec ID="fid1-1-amd">
+    <mets:techMD ID="fid1-1-amd-tech">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
+            <section id="generalFileCharacteristics">
+              <record>
+                <key id="label">newpeter.jpg</key>
+                <key id="fileMIMEType"/>
+                <key id="fileOriginalPath">E4/archive/newpeter.jpg</key>
+                <key id="fileModificationDate">2014-12-02T20:48:34</key>
+              </record>
+            </section>
+            <section id="fileFixity">
+              <record>
+                <key id="fixityType">MD5</key>
+                <key id="fixityValue">7f0b14e62afb8a02fe101faee39a324c</key>
+              </record>
+            </section>
+          </dnx>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:techMD>
+    <mets:rightsMD ID="fid1-1-amd-rights">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:rightsMD>
+    <mets:sourceMD ID="fid1-1-amd-source">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:sourceMD>
+    <mets:digiprovMD ID="fid1-1-amd-digiprov">
+      <mets:mdWrap MDTYPE="OTHER" OTHERMDTYPE="dnx">
+        <mets:xmlData>
+          <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx"/>
+        </mets:xmlData>
+      </mets:mdWrap>
+    </mets:digiprovMD>
+  </mets:amdSec>
+  <mets:fileSec>
+    <mets:fileGrp ID="rep1" ADMID="rep1-amd">
+      <mets:file ID="fid1-1" ADMID="fid1-1-amd">
+        <mets:FLocat LOCTYPE="URL" xlin:href="E4/archive/newpeter.jpg" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+      </mets:file>
+    </mets:fileGrp>
+  </mets:fileSec>
+  <mets:structMap ID="rep1-1" TYPE="PHYSICAL">
+    <mets:div LABEL="PRESERVATION_MASTER;VIEW">
+      <mets:div LABEL="Table of Contents">
+        <mets:div LABEL="newpeter.jpg" TYPE="FILE">
+          <mets:fptr FILEID="fid1-1"/>
+        </mets:div>
+      </mets:div>
+    </mets:div>
+  </mets:structMap>
+</mets:mets>
