@@ -3,10 +3,10 @@
     <mets:mdWrap MDTYPE="DC">
       <mets:xmlData>
         <dc:record xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mods="http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-0.xsd">
-          <dc:title>newpeter</dc:title>
-          <dc:identifier xsi:type="archwayUniqueId">R24684315</dc:identifier>
-          <dcterms:isPartOf>7505</dcterms:isPartOf>
-          <dcterms:provenance>AANH</dcterms:provenance>
+          <dc:title>{{ dc.archway.title }}</dc:title>
+          <dc:identifier xsi:type="archwayUniqueId">{{ dc.archway.id }}</dc:identifier>
+          <dcterms:isPartOf>{{ dc.archway.series }}</dcterms:isPartOf>
+          <dcterms:provenance>{{ dc.archway.agency }}</dcterms:provenance>
         </dc:record>
       </mets:xmlData>
     </mets:mdWrap>
@@ -18,14 +18,14 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="objectIdentifier">
               <record>
-                <key id="objectIdentifierType">ArchwayUniqueID</key>
-                <key id="objectIdentifierValue">R24684315</key>
+                <key id="objectIdentifierType">{{ dnx.rosetta.idtype }}</key>
+                <key id="objectIdentifierValue">{{ dnx.rosetta.idvalue }}</key>
               </record>
             </section>
             <section id="generalIECharacteristics">
               <record>
-                <key id="IEEntityType">ANZ_BornDigital</key>
-                <key id="submissionReason">DigitalTransfer</key>
+                <key id="IEEntityType">{{ dnx.rosetta.entitytype }}</key>
+                <key id="submissionReason">{{ dnx.rosetta.submissionreason }}</key>
               </record>
             </section>
           </dnx>
@@ -38,7 +38,7 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="accessRightsPolicy">
               <record>
-                <key id="policyId">1004</key>
+                <key id="policyId">{{ dnx.rosetta.policyid }}</key>
               </record>
             </section>
           </dnx>
@@ -62,39 +62,9 @@
                 <key id="eventIdentifierValue">EXT_1</key>
                 <key id="eventType">CREATION</key>
                 <key id="eventDescription">Provenance Note</key>
-                <key id="eventDateTime">2014-12-02T23:15:00</key>
+                <key id="eventDateTime">{{ dnx.event.datetime }}</key>
                 <key id="eventOutcome1">SUCCESS</key>
-                <key id="eventOutcomeDetail1">PRECONDITIONING BYTESTREAM 001-Bytes Swapped. JFIF application segment (18 bytes, beginning 0xFFE0) moved directly in front of Photoshop IRB segment (beginning 0xFFDB) and directly after the start of image marker (0xFFD8). MD5 (Original): 02a1b0254fe08cf07e03dde6819a63a9 becomes MD5 (pre-conditioned): 7f0b14e62afb8a02fe101faee39a324c. Modified Date (original) 10 March 2004 becomes modified date (pre-conditioned): 02 December 2014</key>
-              </record>
-            </section>
-            <section id="producer">
-              <record>
-                <key id="userName"/>
-                <key id="address1">10 Mulgrave Street</key>
-                <key id="address2"/>
-                <key id="address3">Wellington</key>
-                <key id="address4">NewZealand</key>
-                <key id="address5"/>
-                <key id="defaultLanguage">en</key>
-                <key id="emailAddress">GDA.admin@dia.govt.nz</key>
-                <key id="firstName">Archives New Zealand</key>
-                <key id="jobTitle"/>
-                <key id="lastName">Government Digital Archive</key>
-                <key id="middleName"/>
-                <key id="telephone1">4995595</key>
-                <key id="telephone2"/>
-                <key id="authorativeName">ANZCSV</key>
-                <key id="producerId">10232942</key>
-                <key id="userIdAppId">10232941</key>
-                <key id="webSiteUrl"/>
-                <key id="zip"/>
-              </record>
-            </section>
-            <section id="producerAgent">
-              <record>
-                <key id="firstName">Ross</key>
-                <key id="lastName">Spencer</key>
-                <key id="middleName"/>
+                <key id="eventOutcomeDetail1">{{ dnx.event.provenancenote }}</key>
               </record>
             </section>
           </dnx>
@@ -109,10 +79,10 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="generalRepCharacteristics">
               <record>
-                <key id="preservationType">PRESERVATION_MASTER</key>
-                <key id="usageType">VIEW</key>
-                <key id="RevisionNumber">1</key>
-                <key id="DigitalOriginal">TRUE</key>
+                <key id="preservationType">{{ dnx.representation.preservationtype }}</key>
+                <key id="usageType">{{ dnx.representation.usagetype }}</key>
+                <key id="RevisionNumber">{{ dnx.representation.revisionnumber }}</key>
+                <key id="DigitalOriginal">{{ dnx.representation.digitaloriginal }}</key>
               </record>
             </section>
           </dnx>
@@ -148,16 +118,16 @@
           <dnx xmlns="http://www.exlibrisgroup.com/dps/dnx">
             <section id="generalFileCharacteristics">
               <record>
-                <key id="label">newpeter.jpg</key>
-                <key id="fileMIMEType"/>
-                <key id="fileOriginalPath">E4/archive/newpeter.jpg</key>
-                <key id="fileModificationDate">2014-12-02T20:48:34</key>
+                <key id="label">{{ dnx.file.label }}</key>
+                <key id="fileMIMEType">{{ dnx.file.mimetype }}</key>
+                <key id="fileOriginalPath">{{ dnx.file.orginalpath }}</key>
+                <key id="fileModificationDate">{{ dnx.file.modificationdate }}</key>
               </record>
             </section>
             <section id="fileFixity">
               <record>
-                <key id="fixityType">MD5</key>
-                <key id="fixityValue">7f0b14e62afb8a02fe101faee39a324c</key>
+                <key id="fixityType">{{ dnx.file.fixitytype }}</key>
+                <key id="fixityValue">{{ dnx.file.fixityvalue }}</key>
               </record>
             </section>
           </dnx>
@@ -189,14 +159,14 @@
   <mets:fileSec>
     <mets:fileGrp ID="rep1" ADMID="rep1-amd">
       <mets:file ID="fid1-1" ADMID="fid1-1-amd">
-        <mets:FLocat LOCTYPE="URL" xlin:href="E4/archive/newpeter.jpg" xmlns:xlin="http://www.w3.org/1999/xlink"/>
+        <mets:FLocat LOCTYPE="URL" xlin:href="{{ dnx.file.orginalpath }}" xmlns:xlin="http://www.w3.org/1999/xlink"/>
       </mets:file>
     </mets:fileGrp>
   </mets:fileSec>
   <mets:structMap ID="rep1-1" TYPE="PHYSICAL">
     <mets:div LABEL="PRESERVATION_MASTER;VIEW">
       <mets:div LABEL="Table of Contents">
-        <mets:div LABEL="newpeter.jpg" TYPE="FILE">
+        <mets:div LABEL="{{ dnx.file.label }}" TYPE="FILE">
           <mets:fptr FILEID="fid1-1"/>
         </mets:div>
       </mets:div>
