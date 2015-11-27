@@ -6,6 +6,7 @@ import sys
 import argparse
 import ConfigParser
 from RosettaCSVGenerator import RosettaCSVGenerator
+from RosettaXMLGenerator import RosettaXMLGenerator
 from ImportOverviewGenerator import ImportOverviewGenerator
 from ImportSheetGenerator import ImportSheetGenerator
          
@@ -17,9 +18,14 @@ def importsheetDROIDmapping(droidcsv, importschema, configfile):
    importgenerator = ImportSheetGenerator(droidcsv, importschema, configfile)
    importgenerator.droid2archwayimport()
    
-def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance):
-   csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
-   csvgen.export2rosettacsv()
+def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance, xml=False):
+   if xml == True:
+      #temporary solution - draw out common components between CSV and XML when we have opportunity...
+      xmlgen = RosettaXMLGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
+      xmlgen.export2rosettacsv()   
+   else:
+      csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
+      csvgen.export2rosettacsv()
 
 def main():
 
@@ -37,6 +43,8 @@ def main():
    parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=False)
    parser.add_argument('--pro','--prov', help='Flag to enable use of prov.notes file.', default=False, required=False, action="store_true")
    parser.add_argument('--args','--arg', help='Concatenate arguments into a file for ease of use.', default=False, required=False)
+
+   parser.add_argument('--xml', help='Flag to create XML SIP.', default=False, required=False, action="store_true")
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -69,11 +77,14 @@ def main():
          if config.get('arguments', 'configfile').lower() == 'true':
             args.ros = False
             args.exp = False
+
+   if config.has_option('arguments', 'xml'):
+      args.xml = config.get('arguments', 'xml')
    
    if args.csv and args.imp and args.cfg:
       importsheetDROIDmapping(args.csv, args.imp, args.cfg)
    elif args.csv and args.exp and args.ros and args.cfg:
-      exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro)
+      exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro, args.xml)
    elif args.csv and args.cfg:
       createImportOverview(args.csv, args.cfg)
    else:
