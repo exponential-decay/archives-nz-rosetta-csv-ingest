@@ -74,6 +74,8 @@ class ImportSheetGenerator:
                      fieldtext = self.get_title(filerow['NAME'])
                   if droidfield == 'MD5_HASH':
                      fieldtext = filerow['MD5_HASH']
+                  if droidfield == 'SHA1_HASH':
+                     fieldtext = filerow['SHA1_HASH']                     
                   if droidfield == 'LAST_MODIFIED':
                      if self.config.has_option('additional values', 'descriptiontext'):
                         fieldtext = self.config.get('additional values', 'descriptiontext') + " " + str(filerow[droidfield])

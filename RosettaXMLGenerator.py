@@ -188,7 +188,7 @@ class RosettaXMLGenerator:
             output = True
             if output == True:
                #tree.write('output/ie' + str(no) + ".xml")
-               tree.write('output/' + self.exportdict['itemcode'] + ".xml") #, encoding='UTF-8')
+               tree.write('output/' + self.exportdict['itemcode'] + ".xml", encoding='UTF-8')
                no+=1
          
          #preserve memory as we go...

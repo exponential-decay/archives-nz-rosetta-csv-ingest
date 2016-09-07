@@ -21,6 +21,7 @@ def importsheetDROIDmapping(droidcsv, importschema, configfile):
 def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance, xml=False):
    if xml == True:
       #temporary solution - draw out common components between CSV and XML when we have opportunity...
+      sys.stderr.write("INFO: Outputting XML data." + "\n")
       xmlgen = RosettaXMLGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
       xmlgen.export2rosettacsv()   
    else:
@@ -78,8 +79,9 @@ def main():
             args.ros = False
             args.exp = False
 
-   if config.has_option('arguments', 'xml'):
-      args.xml = config.get('arguments', 'xml')
+      if config.has_option('arguments', 'xml'):
+         if config.get('arguments', 'xml').lower() == 'true':
+            args.xml = True
    
    if args.csv and args.imp and args.cfg:
       importsheetDROIDmapping(args.csv, args.imp, args.cfg)
