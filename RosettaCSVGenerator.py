@@ -104,12 +104,19 @@ class RosettaCSVGenerator:
       returnfield = ""      
       for drow in self.droidlist:
          addtorow = False
-         
-         checksumfromdroid = drow['MD5_HASH']
+
+         checksumfromdroid = ''
+         if 'MD5_HASH' in drow:
+            checksumfromdroid = drow['MD5_HASH']
+         elif 'SHA1_HASH' in drow:
+            checksumfromdroid = drow['SHA1_HASH']
+         else:
+            sys.stderr.write("No hash available to use in DROID export.\n")
+            os.exit(1)         
          
          if checksumfromdroid == md5:
             if self.compare_filenames_as_titles(drow, itemtitle):
-               
+
                #Performance, only do more work, if we have to care about it...
                if checksumfromdroid in self.duplicates:
                
@@ -202,8 +209,8 @@ class RosettaCSVGenerator:
          #****MULTIPLE ACCESS RESTRICTIONS****#
          #If the field we've got in the config file is Access, we need to
          #Then grab the Rosetta access code for the correct restriction status
-         #Following a trail somewhat, but enables more flexible access restrictions in 
-         if field == 'Access':
+         #Following a trail somewhat, but enables more flexible access restrictions in
+         if field == 'Access Rights Policy ID (IE)':
             if self.config.has_option('access values', addvalue):
                #addvalue becomes the specific code given to a specific restriction status...
                addvalue = self.config.get('access values', addvalue)
@@ -286,7 +293,7 @@ class RosettaCSVGenerator:
                else:
                   #we have a misalignment between cfg and json...
                   #TODO: Output a more useful error message? 
-                  sys.exit("CSV configuration and schema file do not match. Look for missing fields in either.")
+                  sys.exit("CSV configuration and schema file do not match. Look for missing fields in either. Failed on: " + str(field) + " " + str(self.rosettacsvdict[csvindex]['name']))
                
                #increment csvindex along the x-axis...
                csvindex+=1
@@ -302,7 +309,14 @@ class RosettaCSVGenerator:
       seen = []
       dupe = []
       for row in self.droidlist:
-         cs = row['MD5_HASH']
+         cs = ''
+         if 'MD5_HASH' in row:
+            cs = row['MD5_HASH']
+         elif 'SHA1_HASH' in row:
+            cs = row['SHA1_HASH']
+         else:
+            sys.stderr.write("No hash available to use in DROID export.\n")
+            os.exit(1)
          if cs not in seen:
             seen.append(cs)
          else:
