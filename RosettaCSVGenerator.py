@@ -134,7 +134,7 @@ class RosettaCSVGenerator:
             if field == 'File Location':
                returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + '/'
             elif field == 'File Original Path':
-               returnfield = droidfield.replace(pathmask, '').replace('\\','/')
+               returnfield = os.path.dirname(droidfield).replace(pathmask, '').replace('\\','/') + "/"
             else:
                returnfield = droidfield
                
