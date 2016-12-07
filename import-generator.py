@@ -5,10 +5,10 @@ import os
 import sys
 import argparse
 import ConfigParser
-from RosettaCSVGenerator import RosettaCSVGenerator
-from RosettaXMLGenerator import RosettaXMLGenerator
-from ImportOverviewGenerator import ImportOverviewGenerator
-from ImportSheetGenerator import ImportSheetGenerator
+from libs.RosettaCSVGenerator import RosettaCSVGenerator
+from libs.RosettaXMLGenerator import RosettaXMLGenerator
+from libs.ImportOverviewGenerator import ImportOverviewGenerator
+from libs.ImportSheetGenerator import ImportSheetGenerator
          
 def createImportOverview(droidcsv, configfile):
    createoverview = ImportOverviewGenerator(droidcsv, configfile)
