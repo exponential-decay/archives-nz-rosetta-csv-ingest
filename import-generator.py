@@ -73,10 +73,11 @@ def main():
          if config.get('arguments', 'ingest').lower() == "true":    #we need a list control for ingest
             args.exp = config.get('arguments', 'listcontrol')
          else:
-            args.imp = True
             args.exp = False
+            if config.has_option('arguments', 'impschema'):
+               args.imp = config.get('arguments', 'impschema')
             
-      if args.imp == True and args.exp == False:
+      if args.imp != '' and args.exp == False:
          if config.has_option('arguments', 'impconfig'):
             args.cfg = config.get('arguments', 'impconfig')
    
