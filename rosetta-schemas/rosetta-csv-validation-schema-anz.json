@@ -161,7 +161,7 @@
             }
         },
         {
-            "name": "SHA1",
+            "name": "MD5",
             "description": "Hash generated for the file to be uploaded.",
             "type": "http://www.w3.org/2001/XMLSchema#string",
             "constraints": {
