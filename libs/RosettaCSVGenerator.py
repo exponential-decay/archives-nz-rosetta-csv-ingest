@@ -169,6 +169,12 @@ class RosettaCSVGenerator:
                rowdata = rowdata + fielddata + ','
             rowdata = rowdata.rstrip(',') + '\n'
          csvrows = csvrows + rowdata
+         
+      #this is the best i can think of because ExLibris have named two fields with the same
+      #title in CSV which doesn't help us when we're trying to use unique names for populating rows
+      #replaces SIP Title with Title (DC)
+      csvrows = csvrows.replace('"Object Type","SIP Title"','"Object Type","Title (DC)"')         
+         
       sys.stdout.write(csvrows)
       
       for dupe in self.duplicateitemsaddedset:
