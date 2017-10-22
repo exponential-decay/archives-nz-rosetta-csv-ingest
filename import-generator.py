@@ -6,7 +6,6 @@ import sys
 import argparse
 import ConfigParser
 from libs.RosettaCSVGenerator import RosettaCSVGenerator
-from libs.RosettaXMLGenerator import RosettaXMLGenerator
          
 def createImportOverview(droidcsv, configfile):
    createoverview = ImportOverviewGenerator(droidcsv, configfile)
@@ -16,15 +15,9 @@ def importsheetDROIDmapping(droidcsv, importschema, configfile):
    importgenerator = ImportSheetGenerator(droidcsv, importschema, configfile)
    importgenerator.droid2archwayimport()
    
-def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance, xml=False):
-   if xml == True:
-      #temporary solution - draw out common components between CSV and XML when we have opportunity...
-      sys.stderr.write("INFO: Outputting XML data." + "\n")
-      xmlgen = RosettaXMLGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
-      xmlgen.export2rosettacsv()   
-   else:
-      csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
-      csvgen.export2rosettacsv()
+def exportsheetRosettamapping(droidcsv, exportsheet, rosettaschema, configfile, provenance):
+   csvgen = RosettaCSVGenerator(droidcsv, exportsheet, rosettaschema, configfile, provenance)
+   csvgen.export2rosettacsv()
 
 def main():
 
@@ -41,8 +34,6 @@ def main():
    parser.add_argument('--cfg', help='Config file for field mapping.', default=False, required=False)
    parser.add_argument('--pro','--prov', help='Flag to enable use of prov.notes file.', default=False, required=False, action="store_true")
    parser.add_argument('--args','--arg', help='Concatenate arguments into a file for ease of use.', default=False, required=False)
-
-   parser.add_argument('--xml', help='Flag to create XML SIP.', default=False, required=False, action="store_true")
 
    if len(sys.argv)==1:
       parser.print_help()
@@ -68,14 +59,10 @@ def main():
          args.ros = config.get('arguments', 'schemafile')
          args.cfg = config.get('arguments', 'configfile')
          args.exp = config.get('arguments', 'listcontrol')
-
-      if config.has_option('arguments', 'xml'):
-         if config.get('arguments', 'xml').lower() == 'true':
-            args.xml = True
    
    #creating an ingest sheet for Rosetta...
    if args.csv and args.exp and args.ros and args.cfg:
-      exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro, args.xml)
+      exportsheetRosettamapping(args.csv, args.exp, args.ros, args.cfg, args.pro)
    #we're not doing anything sensible...
    else:
       parser.print_help()
