@@ -38,7 +38,11 @@ class RosettaCSVGenerator:
             if self.config.has_option('provenance', 'file'):
                #Overwrite default, if manually specified...
                self.provfile = self.config.get('provenance', 'file')
-          
+         
+            self.provhash = "MD5"
+            if self.config.has_option('application configuration', 'provhash'):
+               self.provhash = self.config.get('application configuration', 'provhash')
+
          self.pathmask = self.__setpathmask__()
       else:
          sys.exit('No config file')
@@ -188,7 +192,7 @@ class RosettaCSVGenerator:
                #These values overwrite the defaults from DROID list...
                #Double-check comparison to ensure we're inputting the right values...
                #TODO: field == 'MD5' get from config...
-               if (PROVENANCE_FIELD == 'CHECKSUM' and field == 'MD5') or \
+               if (PROVENANCE_FIELD == 'CHECKSUM' and field == self.provhash) or \
                   (PROVENANCE_FIELD == 'ORIGINALPATH' and field == 'File Original Path'):
                   if p[PROVENANCE_FIELD].lower().strip() != 'ignore':
                      ignorefield=True
