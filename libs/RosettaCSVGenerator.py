@@ -187,7 +187,8 @@ class RosettaCSVGenerator:
             if p['RECORDNUMBER'] == rnumber:
                #These values overwrite the defaults from DROID list...
                #Double-check comparison to ensure we're inputting the right values...
-               if (PROVENANCE_FIELD == 'CHECKSUM' and field == 'File fixity value') or \
+               #TODO: field == 'MD5' get from config...
+               if (PROVENANCE_FIELD == 'CHECKSUM' and field == 'MD5') or \
                   (PROVENANCE_FIELD == 'ORIGINALPATH' and field == 'File Original Path'):
                   if p[PROVENANCE_FIELD].lower().strip() != 'ignore':
                      ignorefield=True
@@ -221,16 +222,18 @@ class RosettaCSVGenerator:
                #addvalue becomes the specific code given to a specific restriction status...
                addvalue = self.config.get('access values', addvalue)
 
-         ignorefield = self.handleprovenanceexceptions('CHECKSUM', sectionrow, field, csvindex, rnumber)
-
          #place value into the cell within the row...
-         if ignorefield == False:
-            sectionrow[csvindex] = self.add_csv_value(addvalue)
+         sectionrow[csvindex] = self.add_csv_value(addvalue)
          
       #if there is a mapping to a value in the droid export...
       elif self.config.has_option('droid mapping', field):          
          rosettafield = self.config.get('droid mapping', field)         
          ignorefield = self.handleprovenanceexceptions('ORIGINALPATH', sectionrow, field, csvindex, rnumber)
+
+         #if ignorefield is still false, check our checksum field as well...
+         if ignorefield == False:
+		    ignorefield = self.handleprovenanceexceptions('CHECKSUM', sectionrow, field, csvindex, rnumber)
+
          if ignorefield == False:
             sectionrow[csvindex] = self.add_csv_value(self.grabdroidvalue(listcontrolitem['Missing Comment'], listcontrolitem['Title'], listcontrolitem['Sub-Series'], field, rosettafield, self.pathmask))
 
@@ -290,7 +293,7 @@ class RosettaCSVGenerator:
             for field in sections[sections.keys()[0]]:
 
                #store for record level handling like provenance
-               if field == 'Archway Identifier Value':
+               if field == 'Archway Unique ID (Object Identifier)':
                   self.rnumber = item['Item Code']            
                
                #if we have a matching field in the cfg, and json, populate it... 
