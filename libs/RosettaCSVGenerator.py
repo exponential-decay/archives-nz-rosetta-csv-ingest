@@ -193,7 +193,7 @@ class RosettaCSVGenerator:
                #Double-check comparison to ensure we're inputting the right values...
                #TODO: field == 'MD5' get from config...
                if (PROVENANCE_FIELD == 'CHECKSUM' and field == self.provhash) or \
-                  (PROVENANCE_FIELD == 'ORIGINALPATH' and field == 'File Original Path'):
+                  (PROVENANCE_FIELD == 'ORIGINALNAME' and field == 'File Original Name'):
                   if p[PROVENANCE_FIELD].lower().strip() != 'ignore':
                      ignorefield=True
                      sectionrow[csvindex] = self.add_csv_value(p[PROVENANCE_FIELD])
@@ -232,7 +232,7 @@ class RosettaCSVGenerator:
       #if there is a mapping to a value in the droid export...
       elif self.config.has_option('droid mapping', field):          
          rosettafield = self.config.get('droid mapping', field)         
-         ignorefield = self.handleprovenanceexceptions('ORIGINALPATH', sectionrow, field, csvindex, rnumber)
+         ignorefield = self.handleprovenanceexceptions('ORIGINALNAME', sectionrow, field, csvindex, rnumber)
 
          #if ignorefield is still false, check our checksum field as well...
          if ignorefield == False:
